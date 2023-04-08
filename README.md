@@ -2,9 +2,7 @@
 
 Very WIP.
 
-Currently used software:
-
-| Type | Software |
+| Category | Currently Used |
 | --- | --- |
 | Distro | [EndeavourOS](https://endeavouros.com/) |
 | Display Manager | [Ly](https://github.com/fairyglade/ly) |
@@ -15,3 +13,8 @@ Currently used software:
 | Editor/IDE | [Neovim](https://github.com/neovim/neovim), [VS Code](https://code.visualstudio.com/) |
 | File Manager | [Files/Nautilus](https://wiki.gnome.org/action/show/Apps/Files?action=show&redirect=Apps%2FNautilus), [Thunar](https://docs.xfce.org/xfce/thunar/start), [ranger](https://github.com/ranger/ranger) |
 | Launcher | [Rofi](https://github.com/davatorium/rofi) |
+
+## Config Templates
+
+AwesomeWM: https://github.com/suconakh/awesome-awesome-rc
+Rofi: https://github.com/adi1090x/rofi
