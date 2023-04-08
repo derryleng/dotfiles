@@ -1,0 +1,23 @@
+[include]
+	path = ~/.gitconfig.local
+
+[core]
+	editor = code
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+	autocrlf = input
+
+[init]
+	defaultBranch = main
+
+[checkout]
+	defaultRemote = origin
+
+[diff]
+	external = code
+
+[merge]
+	tool = code
+
+[help]
+	autocorrect = 1

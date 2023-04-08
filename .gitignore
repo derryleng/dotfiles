@@ -1,0 +1,24 @@
+# Git
+.git-credentials
+.gitconfig.local
+
+# Nodejs
+node_modules
+
+# Python
+*.pyc
+
+# Vim
+.vim/swaps/*
+.vim/undo
+.vim/viminfo
+
+# Windows
+.DS_Store
+Desktop.ini
+Thumbs.db
+*~
+
+# Mac
+.Spotlight-V100
+.Trashes
