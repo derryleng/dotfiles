@@ -2,7 +2,7 @@
 	path = ~/.gitconfig.local
 
 [core]
-	editor = code
+	editor = code --wait
 	excludesfile = ~/.gitignore
 	attributesfile = ~/.gitattributes
 	autocrlf = input
@@ -14,10 +14,22 @@
 	defaultRemote = origin
 
 [diff]
-	external = code
+	tool = vscode
+
+[difftool "vscode"]
+	cmd = code --wait --diff $LOCAL $REMOTE
 
 [merge]
-	tool = code
+	tool = vscode
+
+[mergetool "vscode"]
+	cmd = code --wait $MERGED
 
 [help]
 	autocorrect = 1
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
