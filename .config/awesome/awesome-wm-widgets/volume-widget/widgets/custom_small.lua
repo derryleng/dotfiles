@@ -13,12 +13,7 @@ local widget = {}
 function widget.get_widget(widgets_args)
     local args = widgets_args or {}
 
-    local main_color = args.main_color or beautiful.fg_normal
-    local mute_color = args.mute_color or beautiful.fg_urgent
-    local bg_color = args.bg_color or '#ffffff11'
-    local width = args.width or 150
     local margins = args.margins or 18
-    local shape = args.shape or 'bar'
 
     local bar = wibox.widget {
         {
@@ -31,16 +26,6 @@ function widget.get_widget(widgets_args)
             visible = true,
             margins = { top = margins, bottom = margins },
             layout = wibox.container.place,
-        },
-        {
-            id = 'bar',
-            max_value = 100,
-            forced_width = width,
-            color = main_color,
-            margins = { top = margins, bottom = margins },
-            background_color = bg_color,
-            shape = gears.shape[shape],
-            widget = wibox.widget.progressbar,
         },
         {
             id = 'txt',
@@ -64,17 +49,14 @@ function widget.get_widget(widgets_args)
                 end
             end
             self:get_children_by_id('icon')[1]:set_image(icon_dir .. volume_icon_name .. '.svg')
-            self:get_children_by_id('bar')[1]:set_value(tonumber(new_value))
             self:get_children_by_id('txt')[1]:set_text(new_value)
         end,
         mute = function(self)
             self.is_muted = true
             self:get_children_by_id('icon')[1]:set_image(icon_dir .. 'audio-volume-muted-symbolic.svg')
-            self:get_children_by_id('bar')[1]:set_color(mute_color)
         end,
         unmute = function(self)
             self.is_muted = false
-            self:get_children_by_id('bar')[1]:set_color(main_color)
         end
     }
 

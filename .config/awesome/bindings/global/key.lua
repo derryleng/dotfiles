@@ -5,7 +5,7 @@ local menubar = require'menubar'
 
 local apps = require'config.apps'
 local mod = require'bindings.mod'
-local menu = require'modules.menu'
+local menu = require'widgets.menu'
 
 menubar.utils.terminal = apps.terminal
 

@@ -3,7 +3,7 @@ local beautiful = require'beautiful'
 local wibox = require'wibox'
 
 local vars = require'config.vars'
-local widgets = require'modules.widgets'
+local widgets = require'widgets'
 
 screen.connect_signal('request::wallpaper', function(s)
    awful.wallpaper{
@@ -20,12 +20,17 @@ screen.connect_signal('request::wallpaper', function(s)
          tiled = false,
          widget = wibox.container.tile,
       }
-
    }
 end)
 
 screen.connect_signal('request::desktop_decoration', function(s)
-   awful.tag(vars.tags, s, awful.layout.layouts[1])
+   -- Horizontal screen
+   if s.geometry.width > s.geometry.height then
+      awful.tag(vars.tags, s, awful.layout.suit.tile)
+   -- Vertical screen
+   else
+      awful.tag(vars.tags_small, s, awful.layout.suit.fair.horizontal)
+   end
    s.promptbox = widgets.create_promptbox()
    s.layoutbox = widgets.create_layoutbox(s)
    s.taglist   = widgets.create_taglist(s)

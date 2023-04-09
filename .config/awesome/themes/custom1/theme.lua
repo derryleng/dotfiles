@@ -2,7 +2,7 @@ local theme_assets = require"beautiful.theme_assets"
 local xresources = require"beautiful.xresources"
 local rnotification = require"ruled.notification"
 local dpi = xresources.apply_dpi
-local themes_path = os.getenv("HOME") .. "/.config/awesome/themes/custom/"
+local themes_path = os.getenv("HOME") .. "/.config/awesome/themes/custom1/"
 
 local theme = {}
 
@@ -26,7 +26,7 @@ theme.border_width         = dpi(1)
 theme.border_color_normal  = theme.bg_normal
 theme.border_color_active  = theme.bg_focus
 theme.border_color_marked  = theme.bg_urgent
-
+ 
 theme.hotkeys_modifiers_fg = "#0066FF"
 theme.hotkeys_opacity      = 0.8
 theme.hotkeys_group_margin = dpi(25)
