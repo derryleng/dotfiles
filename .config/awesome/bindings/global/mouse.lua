@@ -1,6 +1,6 @@
 local awful = require'awful'
 
-local menu = require'modules.menu'
+local menu = require'widgets.menu'
 
 awful.mouse.append_global_mousebindings{
    awful.button{

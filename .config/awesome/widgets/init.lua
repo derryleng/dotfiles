@@ -8,7 +8,8 @@ local wibox = require'wibox'
 local dpi = xresources.apply_dpi
 
 local mod = require'bindings.mod'
-
+local menu = require'widgets.menu'
+local netspeed_widget = require'widgets.net-speed'
 local volume_widget = require'awesome-wm-widgets.volume-widget.volume'
 local spotify_widget = require'awesome-wm-widgets.spotify-widget.spotify'
 
@@ -30,12 +31,21 @@ _M.volume = volume_widget{
    widget_type = 'custom',
 }
 
+_M.volume_small = volume_widget{
+   step        = 1,
+   widget_type = 'custom_small',
+}
+
 _M.spotify = spotify_widget{
    play_icon  = '/usr/share/icons/Arc/actions/24/media-playback-start.png',
-   pause_icon =  '/usr/share/icons/Arc/actions/24/media-playback-pause.png',
+   pause_icon = '/usr/share/icons/Arc/actions/24/media-playback-pause.png',
    font       = 'Terminus 9',
    max_length = -1,
    sp_bin     = os.getenv('HOME') .. '/.config/awesome/scripts/sp'
+}
+
+_M.netspeed = netspeed_widget{
+   width = 80,
 }
 
 function _M.create_promptbox() return awful.widget.prompt() end
@@ -147,36 +157,75 @@ function _M.create_tasklist(s)
 end
 
 function _M.create_wibox(s)
-   return awful.wibar{
-      screen = s,
-      position = 'top',
-      opacity = 0.9,
-      widget = {
-         layout = wibox.layout.align.horizontal,
-         -- left widgets
-         {
-            layout = wibox.layout.fixed.horizontal,
-            -- _M.launcher,
-            s.taglist,
-            s.promptbox,
-         },
-         -- middle widgets
-         s.tasklist,
-         -- right widgets
-         {
-            layout = wibox.layout.fixed.horizontal,
-            wibox.widget.systray(),
-            _M.spotify,
-            _M.sep,
-            _M.volume,
-            _M.sep,
-            _M.keyboardlayout,
-            _M.sep,
-            _M.textclock,
-            s.layoutbox,
+   -- Horizontal screen
+   if s.geometry.width > s.geometry.height then
+      return awful.wibar{
+         screen = s,
+         position = 'top',
+         opacity = 0.9,
+         height = 42,
+         widget = {
+            layout = wibox.layout.align.horizontal,
+            -- left widgets
+            {
+               layout = wibox.layout.fixed.horizontal,
+               -- menu.launcher,
+               s.taglist,
+               _M.sep,
+               s.promptbox,
+            },
+            -- middle widgets
+            s.tasklist,
+            -- right widgets
+            {
+               layout = wibox.layout.fixed.horizontal,
+               wibox.widget.systray(),
+               _M.spotify,
+               _M.sep,
+               _M.netspeed,
+               _M.sep,
+               _M.volume,
+               _M.sep,
+               _M.keyboardlayout,
+               _M.sep,
+               _M.textclock,
+               s.layoutbox,
+            }
          }
       }
-   }
+   -- Vertical screen
+   else
+      return awful.wibar{
+         screen = s,
+         position = 'top',
+         opacity = 0.9,
+         height = 28,
+         widget = {
+            layout = wibox.layout.align.horizontal,
+            -- left widgets
+            {
+               layout = wibox.layout.fixed.horizontal,
+               -- menu.launcher,
+               s.taglist,
+               _M.sep,
+               s.promptbox,
+            },
+            -- middle widgets
+            s.tasklist,
+            -- right widgets
+            {
+               layout = wibox.layout.fixed.horizontal,
+               wibox.widget.systray(),
+               _M.spotify,
+               _M.sep,
+               _M.volume_small,
+               _M.sep,
+               _M.textclock,
+               s.layoutbox,
+            }
+         }
+      }
+   end
 end
 
 return _M

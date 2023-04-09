@@ -29,7 +29,8 @@ local widget_types = {
     arc = require("awesome-wm-widgets.volume-widget.widgets.arc-widget"),
     horizontal_bar = require("awesome-wm-widgets.volume-widget.widgets.horizontal-bar-widget"),
     vertical_bar = require("awesome-wm-widgets.volume-widget.widgets.vertical-bar-widget"),
-    custom = require("awesome-wm-widgets.volume-widget.widgets.custom")
+    custom = require("awesome-wm-widgets.volume-widget.widgets.custom"),
+    custom_small = require("awesome-wm-widgets.volume-widget.widgets.custom_small")
 }
 local volume = {}
 

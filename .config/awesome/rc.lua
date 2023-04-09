@@ -20,5 +20,8 @@ require'rules'
 -- load signals
 require'signals'
 
--- load modules
-require'modules'
+-- load widgets
+require'widgets'
+
+-- load autostart
+require'autostart'
