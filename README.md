@@ -17,4 +17,5 @@ Very WIP.
 ## Config Templates
 
 AwesomeWM: https://github.com/suconakh/awesome-awesome-rc
+
 Rofi: https://github.com/adi1090x/rofi

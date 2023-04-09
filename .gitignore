@@ -3,10 +3,19 @@
 .gitconfig.local
 
 # Nodejs
-node_modules
+node_modules/
 
 # Python
+__pycache__/
 *.pyc
+.ipynb_checkpoints
+venv/
+
+# R
+.Rhistory
+.Rapp.history
+.RData
+.Rproj.user/
 
 # Vim
 .vim/swaps/*
@@ -15,6 +24,7 @@ node_modules
 
 # Windows
 .DS_Store
+.Trash-*
 Desktop.ini
 Thumbs.db
 *~
