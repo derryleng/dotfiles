@@ -8,10 +8,9 @@ local wibox = require'wibox'
 local dpi = xresources.apply_dpi
 
 local mod = require'bindings.mod'
-local menu = require'widgets.menu'
-local netspeed_widget = require'widgets.net-speed'
-local volume_widget = require'awesome-wm-widgets.volume-widget.volume'
-local spotify_widget = require'awesome-wm-widgets.spotify-widget.spotify'
+-- local menu = require'widgets.menu'
+local volume_widget = require'widgets.awesome-wm-widgets.volume-widget.volume'
+local spotify_widget = require'widgets.awesome-wm-widgets.spotify-widget.spotify'
 
 _M.sep = wibox.widget.separator{
    orientation  = 'vertical',
@@ -41,11 +40,7 @@ _M.spotify = spotify_widget{
    pause_icon = '/usr/share/icons/Arc/actions/24/media-playback-pause.png',
    font       = 'Terminus 9',
    max_length = -1,
-   sp_bin     = os.getenv('HOME') .. '/.config/awesome/scripts/sp'
-}
-
-_M.netspeed = netspeed_widget{
-   width = 80,
+   sp_bin     = os.getenv('HOME') .. '/.config/awesome/widgets/awesome-wm-widgets/spotify-widget/sp'
 }
 
 function _M.create_promptbox() return awful.widget.prompt() end
@@ -163,7 +158,7 @@ function _M.create_wibox(s)
          screen = s,
          position = 'top',
          opacity = 0.9,
-         height = 42,
+         -- height = 42,
          widget = {
             layout = wibox.layout.align.horizontal,
             -- left widgets
@@ -181,8 +176,6 @@ function _M.create_wibox(s)
                layout = wibox.layout.fixed.horizontal,
                wibox.widget.systray(),
                _M.spotify,
-               _M.sep,
-               _M.netspeed,
                _M.sep,
                _M.volume,
                _M.sep,

@@ -14,9 +14,6 @@ beautiful.init(os.getenv('HOME') .. string.format('/.config/awesome/themes/%s/th
 -- load key and mouse bindings
 require'bindings'
 
--- load rules
-require'rules'
-
 -- load signals
 require'signals'
 
