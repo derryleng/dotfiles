@@ -177,7 +177,7 @@ function _M.create_wibox(s)
                wibox.widget.systray(),
                _M.spotify,
                _M.sep,
-               _M.volume,
+               _M.volume_small,
                _M.sep,
                _M.keyboardlayout,
                _M.sep,

@@ -1,6 +1,9 @@
 [include]
 	path = ~/.gitconfig.local
 
+[alias]
+	rm-deleted = !git rm $(git ls-files --deleted)
+
 [core]
 	editor = code --wait
 	excludesfile = ~/.gitignore
