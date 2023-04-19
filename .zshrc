@@ -1,10 +1,16 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Empty git repo for tracking dotfiles
+alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
+
 alias vim='nvim'
 alias ls='ls --color=auto'
 alias ll='ls -lav --ignore=..'   # show long listing of all except ".."
 alias l='ls -lav --ignore=.?*'   # show long listing but no hidden dotfiles except
+
+# Disable bracketed paste
+bind 'set enable-bracketed-paste off'
 
 neofetch
 
@@ -134,5 +140,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
