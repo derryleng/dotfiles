@@ -7,5 +7,5 @@ echo "---" | tee -a /tmp/polybar1.log /tmp/polybar2.log
 polybar bar-bspwm1 2>&1 | tee -a /tmp/polybar1.log & disown
 polybar bar-bspwm2 2>&1 | tee -a /tmp/polybar2.log & disown
 
-xdo below -t $(xdo id -a DP-2) $(xdo id -a polybar-bar-bspwm1_DP-2)
-xdo below -t $(xdo id -a HDMI-0) $(xdo id -a polybar-bar-bspwm2_HDMI-0)
+sleep 1
+xdo below -t $(xdo id -n root) $(xdo id -n polybar)
