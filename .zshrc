@@ -10,9 +10,7 @@ alias ll='ls -lav --ignore=..'   # show long listing of all except ".."
 alias l='ls -lav --ignore=.?*'   # show long listing but no hidden dotfiles except
 
 # Disable bracketed paste
-bind 'set enable-bracketed-paste off'
-
-neofetch
+unset zle_bracketed_paste
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]

@@ -17,6 +17,36 @@ if test "$(bspc query -M | wc -l)" -gt 1; then
     bspc monitor ^2 -d 6 7 8 9 0
 fi
 
+# Hide polybar under fullscreen windows
+bspc subscribe node_add | while read -r event; do
+    # Get ID of the focused desktop
+    desktop=$(bspc query -D -d focused --names)
+
+    # Check if the focused desktop has a fullscreen window
+    if bspc query -N -d "$desktop" -n "fullscreen"; then
+        # Get ID of the polybar on the focused desktop
+        polybar_id=$(xdo id -a "polybar-bspwm-$desktop")
+
+        # Hide the polybar
+        xdo hide -a "$polybar_id"
+    fi
+done &
+
+# Show polybar when fullscreen window is destroyed
+bspc subscribe node_remove | while read -r event; do
+    # Get ID of the focused desktop
+    desktop=$(bspc query -D -d focused --names)
+
+    # Check if the focused desktop has any windows
+    if bspc query -N -d "$desktop" -n .; then
+        # Get ID of the polybar on the focused desktop
+        polybar_id=$(xdo id -a "polybar-bspwm-$desktop")
+
+        # Show the polybar
+        xdo show -a "$polybar_id"
+    fi
+done &
+
 bspc config window_gap                  1
 bspc config border_radius               1
 bspc config border_width                2
