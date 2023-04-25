@@ -17,11 +17,6 @@ venv/
 .RData
 .Rproj.user/
 
-# Vim
-.vim/swaps/*
-.vim/undo
-.vim/viminfo
-
 # Windows
 .DS_Store
 .Trash-*

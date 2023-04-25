@@ -40,7 +40,7 @@ _M.spotify = spotify_widget{
    pause_icon = '/usr/share/icons/Arc/actions/24/media-playback-pause.png',
    font       = 'Terminus 9',
    max_length = -1,
-   sp_bin     = os.getenv('HOME') .. '/.config/awesome/widgets/awesome-wm-widgets/spotify-widget/sp'
+   sp_bin     = os.getenv('HOME') .. '/.config/scripts/sp'
 }
 
 function _M.create_promptbox() return awful.widget.prompt() end
