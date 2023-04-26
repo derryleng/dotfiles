@@ -5,6 +5,8 @@ alias vim='nvim'
 alias ls='ls --color=auto'
 alias ll='ls -lav --ignore=..'   # show long listing of all except ".."
 alias l='ls -lav --ignore=.?*'   # show long listing but no hidden dotfiles except "."
+alias grep='grep --colour=auto'
+PS1='[\u@\h \W]\$ '
 
 ## Use the up and down arrow keys for finding a command in history
 ## (you can write some initial letters of the command first).

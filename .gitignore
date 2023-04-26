@@ -1,3 +1,5 @@
+.dotfiles
+
 # Git
 .git-credentials
 .gitconfig.local
