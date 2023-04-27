@@ -38,7 +38,7 @@ iwctl
 # station wlan0 connect ...SSID...
 
 # Update package list
-sudo pacman -Sy
+pacman -Sy
 
 # Update the system clock
 timedatectl set-timezone "Europe/London"
@@ -58,14 +58,17 @@ mount /dev/nvme1n1p3 /mnt
 mkdir -p /mnt/boot/efi
 mount /dev/nvme1n1p1 /mnt/boot/efi
 
-# Install the base system and all relevant software
-pacstrap /mnt base base-devel linux linux-firmware btrfs-progs exfat-utils e2fsprogs ntfs-3g intel-ucode nvidia nvidia-utils nvidia-settings networkmanager vi nano neovim git seahorse alacritty firefox ttf-jetbrains-mono-nerd bspwm sxhkd xdo rofi polybar picom flatpak fish htop pavucontrol thunar redshift-minimal
+# Install the base system, linux kernel, text editors
+pacstrap /mnt base base-devel linux linux-firmware vi nano
 
 # Generate an fstab file
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Chroot into the system
 arch-chroot /mnt
+
+# Update root password
+passwd
 
 # Set the time zone
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -83,7 +86,7 @@ echo "KEYMAP=uk" > /etc/vconsole.conf
 echo "myhostname" > /etc/hostname
 
 # Install bootloader (GRUB and EFI)
-pacman -S grub os-prober efibootmgr
+pacman -S --needed grub os-prober efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=archlinux
 grub-mkconfig -o /boot/grub/grub.cfg
 sed 's/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub
@@ -105,19 +108,70 @@ useradd -m -G wheel -s /bin/bash newuser
 passwd newuser
 sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-# Connect to the internet
+# Update mirror list
+pacman -S reflector
+reflector --country GB --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+pacman -Syy
+
+# Install some pacman tools
+pacman -S --needed pacman-contrib pkgfile rebuild-detector
+
+# Install filesystem tools
+pacman -S --needed btrfs-progs exfat-utils e2fsprogs ntfs-3g efitools
+
+# Install time and networking tools
+pacman -S --needed ntp networkmanager dhclient ethtool dnsmasq dnsutils wireless_tools iwd usb_modeswitch whois nmap ndisc6
+
+# Install fonts
+pacman -S --needed adobe-source-han-sans-cn-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts cantarell-fonts freetype2 noto-fonts ttf-bitstream-vera ttf-dejavu ttf-liberation ttf-opensans ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols-2048-em ttf-font-awesome noto-fonts noto-fonts-emoji
+
+# Install some more utils and stuff
+pacman -S --needed git flatpak fish htop gnome-keyring man-db xclip xdotool fzf rsync wget duf fsarchiver glances hwinfo inxi meld nano-syntax-highlighting pv python-defusedxml python-packaging tldr rtkit dmidecode dmraid hdparm hwdetect lsscsi mtools sg3_utils sof-firmware tlp bluez bluez-utils xdg-user-dirs xdg-user-dirs-gtk xdg-utils haveged bash-completion jq acpi sysstat findutils dialog smartmontools
+
+# Install pipewire for sound
+pacman -S --needed alsa-firmware alsa-plugins alsa-utils pipewire pipewire-alsa pipewire-jack pipewire-pulse  wireplumber pavucontrol gst-plugin-pipewire
+
+# Install intel microcode and nvidia graphics drivers
+pacman -S --needed intel-ucode nvidia nvidia-utils nvidia-settings
+
+# Install X11 tools and desktop (bspwm)
+pacman -S --needed libwnck3 mesa-utils xorg-xinput xorg-xkill xorg-xrandr xf86-video-intel xorg-xwininfo xorg-xdpyinfo xorg-xinit xorg-xbacklight xbindkeys xorg-xsetroot arandr bspwm sxhkd xdo picom polybar rofi dunst archlinux-xdg-menu scrot i3lock gtk-engine-murrine lxappearance-gtk3
+
+# Install file dialog (gvfs) and file explorer (thunar)
+pacman -S --needed gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb tumbler thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman
+
+# Install some apps
+pacman -S --needed alacritty firefox neovim
+
+# Exit chroot and reboot
+exit
+umount -R /mnt
+reboot
+```
+
+### 2. Post install
+
+```bash
+#!/bin/bash
+
+# Enable some services
 sudo systemctl enable NetworkManager.service
 sudo systemctl start NetworkManager.service
 nmtui
+sudo systemctl enable ntpd
+sudo systemctl start ntpd
 
-# Update package lists
-sudo pacman -Syy
-sudo reflector --country GB --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
-sudo pacman -Syy
+# Clone dotfiles
+git clone --bare https://USERNAME:PASSWORD@github.com/derryleng/dotfiles.git /home/derry/.dotfiles
+alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
+dotfiles config --local status.showUntrackedFiles no
+dotfiles checkout
 
 # Install and setup yay (https://github.com/Jguer/yay)
-mkdir ~/repos
-cd ~/repos
+su derry
+cd
+mkdir repos
+cd repos
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
@@ -128,15 +182,4 @@ yay -Y --devel --save
 # Install and enable ly
 yay -S ly
 sudo systemctl enable ly.service
-
-# Clone dotfiles
-git clone --bare https://USERNAME:PASSWORD@github.com/derryleng/dotfiles.git /home/derry/.dotfiles
-alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
-dotfiles config --local status.showUntrackedFiles no
-dotfiles checkout
-
-# Exit chroot and reboot
-exit
-umount -R /mnt
-reboot
 ```
