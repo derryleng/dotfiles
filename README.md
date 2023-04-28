@@ -42,12 +42,6 @@ iwctl
 #   station wlan0 connect ...OUR_SSID...
 ```
 
-Make sure packages are up to date
-
-```bash
-pacman -Syu
-```
-
 Update the system clock
 
 ```bash
@@ -116,12 +110,18 @@ mount /dev/nvme1n1p1 /mnt/boot/efi
 Use reflector to update the fastest mirrors for pacman
 
 ```bash
-reflector --country GB --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
+reflector --country GB --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+Make sure package lists are up to date
+
+```bash
+pacman -Sy
 ```
 
 Install some essential packages using pacstrap, here we're installing:
 
-- Base packages
+- Base and base development packages
 - Linux kernel
 - Linux firmware for common hardware
 - Basic text editor (vi and nano)
@@ -215,7 +215,7 @@ sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 We can also edit /etc/sudoers to allow no sudo use of shutdown and reboot.
 
 ```bash
-sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD:/%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot/' /etc/sudoers
+sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot/' /etc/sudoers
 ```
 
 Now we should have a minimal working system, we exit out of the system, unmount the partitions and then reboot.
@@ -228,7 +228,7 @@ reboot
 
 ## 4. Post installation
 
-Assuming we have successfully booted into our new system, start up NetworkManager and connect to the internet.
+Assuming we have successfully booted into our new system as the new user, start up NetworkManager and connect to the internet.
 
 ```bash
 sudo systemctl enable NetworkManager.service
@@ -238,18 +238,10 @@ sudo systemctl start NetworkManager.service
 nmtui
 ```
 
-Update pacman mirror list
-
-```bash
-pacman -S reflector
-reflector --country GB --protocol https --latest 20 --sort rate --save /etc/pacman.d/mirrorlist
-pacman -Syy
-```
-
 Clone my dotfiles
 
 ```bash
-pacman -S --needed git
+sudo pacman -S --needed git
 git clone --bare https://github.com/derryleng/dotfiles.git /home/derry/.dotfiles
 alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
 dotfiles config --local status.showUntrackedFiles no
@@ -278,38 +270,74 @@ sudo systemctl enable ly.service
 
 ## 5. Install additional software
 
+Install intel microcode
+
 ```bash
+sudo pacman -S --needed intel-ucode
+```
 
-# Install some pacman tools
-pacman -S --needed pacman-contrib pkgfile rebuild-detector
+Install filesystem tools
 
-# Install filesystem tools
-pacman -S --needed btrfs-progs exfat-utils e2fsprogs ntfs-3g
+```bash
+sudo pacman -S --needed e2fsprogs btrfs-progs exfat-utils ntfs-3g smartmontools
+```
 
-# Install time and networking tools
-pacman -S --needed ntp networkmanager dhclient ethtool dnsmasq dnsutils wireless_tools iwd usb_modeswitch whois nmap ndisc6
+Install fonts
 
-# Install fonts
-pacman -S --needed adobe-source-han-sans-cn-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts cantarell-fonts freetype2 noto-fonts ttf-bitstream-vera ttf-dejavu ttf-liberation ttf-opensans ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols-2048-em ttf-font-awesome noto-fonts noto-fonts-emoji
+```bash
+sudo pacman -S --needed adobe-source-code-pro-fonts adobe-source-han-sans-cn-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts cantarell-fonts freetype2 noto-fonts ttf-bitstream-vera ttf-dejavu ttf-liberation ttf-opensans ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols-2048-em ttf-font-awesome noto-fonts noto-fonts-emoji
+```
 
-# Install some more utils and stuff
-pacman -S --needed git flatpak fish htop gnome-keyring xclip xdotool fzf rsync wget duf fsarchiver glances hwinfo inxi meld nano-syntax-highlighting pv python-defusedxml python-packaging rtkit dmidecode dmraid hdparm hwdetect lsscsi mtools sg3_utils sof-firmware tlp bluez bluez-utils xdg-user-dirs xdg-user-dirs-gtk xdg-utils haveged bash-completion jq acpi sysstat findutils dialog smartmontools
+Install X display server
 
-# Install some documentation
-pacman -S --needed man-db man-pages texinfo tldr
+```bash
+sudo pacman -S --needed xorg-server
+```
 
-# Install pipewire for sound
-pacman -S --needed alsa-firmware alsa-plugins alsa-utils pipewire pipewire-alsa pipewire-jack pipewire-pulse  wireplumber pavucontrol gst-plugin-pipewire
+Install desktop packages
 
-# Install intel microcode and nvidia graphics drivers
-pacman -S --needed intel-ucode nvidia nvidia-utils nvidia-settings
+```bash
+sudo pacman -S --needed alacritty archlinux-xdg-menu bspwm picom polybar rofi sxhkd xbindkeys xclip xdo xorg-xbacklight xorg-xdpyinfo xorg-xinit xorg-xinput xorg-xkill xorg-xrandr xorg-xsetroot
+```
 
-# Install X11 tools and desktop (bspwm)
-pacman -S --needed libwnck3 mesa-utils xorg-xinput xorg-xkill xorg-xrandr xf86-video-intel xorg-xwininfo xorg-xdpyinfo xorg-xinit xorg-xbacklight xbindkeys xorg-xsetroot arandr bspwm sxhkd xdo picom polybar rofi dunst archlinux-xdg-menu scrot i3lock gtk-engine-murrine lxappearance-gtk3
+Install pipewire for sound
 
-# Install file dialog (gvfs) and file explorer (thunar)
-pacman -S --needed gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb tumbler thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman
+```bash
+sudo pacman -S --needed alsa-firmware alsa-plugins alsa-utils gst-plugin-pipewire pavucontrol pipewire pipewire-alsa pipewire-jack pipewire-pulse  wireplumber
+```
 
-# Install some apps
-pacman -S --needed alacritty firefox neovim
+Install nvidia graphics drivers
+
+```bash
+pacman -S --needed nvidia nvidia-utils nvidia-settings
+```
+
+Install cursor and icon themes
+
+```bash
+yay -S bibata-cursor-theme-bin
+
+sudo pacman -S papirus-icon-theme
+```
+
+Install some documentation
+
+```bash
+sudo pacman -S --needed man-db man-pages texinfo tldr
+```
+
+Install file dialog (gvfs) and file explorer (thunar)
+
+```bash
+sudo pacman -S --needed gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman tumbler
+```
+
+Install some more useful stuff and enable some services
+
+```bash
+pacman -S --needed acpi acpid bash-completion blueman bluez bluez-utils firewalld fish flatpak fzf gnome-keyring gtk-engine-murrine htop hwinfo inxi nano-syntax-highlighting neovim reflector rsync rtkit scrot sysstat tlp wget xdg-user-dirs xdg-user-dirs-gtk
+
+sudo systemctl enable acipd.service
+sudo systemctl enable firewalld
+sudo systemctl enable tlp
 ```
