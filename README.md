@@ -166,7 +166,7 @@ hwclock --systohc
 Uncomment the correct line in /etc/locale.gen and generate the locales
 
 ```bash
-sed -i 's/#en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen
+sed -i 's/#en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/g' /etc/locale.gen
 locale-gen
 ```
 
@@ -189,7 +189,7 @@ Install the bootloader, here we are using Grub for EFI boot. We're also using os
 pacman -S --needed grub os-prober efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=archlinux
 grub-mkconfig -o /boot/grub/grub.cfg
-sed 's/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub
+sed 's/#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/g' /etc/default/grub
 update-grub
 # If the update-grub command doesn't exist:
 # Write the following into /usr/sbin/update-grub:
@@ -209,13 +209,13 @@ Create a new user account (replace newuser with name of our account) and then ad
 ```bash
 useradd -m -G wheel -s /bin/bash newuser
 passwd newuser
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
 ```
 
-We can also edit /etc/sudoers to allow no sudo use of shutdown and reboot.
+We can also edit /etc/sudoers to allow non-sudo use of shutdown, reboot, mount, umount.
 
 ```bash
-sed -i 's/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot/' /etc/sudoers
+sed -i 's+# %wheel ALL=(ALL:ALL) NOPASSWD: ALL+%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/sbin/mount,/sbin/umount+g' /etc/sudoers
 ```
 
 Now we should have a minimal working system, we exit out of the system, unmount the partitions and then reboot.
@@ -303,7 +303,7 @@ sudo pacman -S --needed alacritty archlinux-xdg-menu bspwm picom polybar rofi sx
 Install pipewire for sound
 
 ```bash
-sudo pacman -S --needed alsa-firmware alsa-plugins alsa-utils gst-plugin-pipewire pavucontrol pipewire pipewire-alsa pipewire-jack pipewire-pulse  wireplumber
+sudo pacman -S --needed alsa-firmware alsa-plugins alsa-utils gst-plugin-pipewire pavucontrol pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
 ```
 
 Install nvidia graphics drivers
@@ -312,10 +312,10 @@ Install nvidia graphics drivers
 pacman -S --needed nvidia nvidia-utils nvidia-settings
 ```
 
-Install cursor and icon themes
+Install cursors, icons and themes
 
 ```bash
-yay -S bibata-cursor-theme-bin
+yay -S bibata-cursor-theme-bin qogir-gtk-theme arc-gtk-theme-git
 
 sudo pacman -S papirus-icon-theme
 ```
@@ -335,9 +335,35 @@ sudo pacman -S --needed gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb th
 Install some more useful stuff and enable some services
 
 ```bash
-pacman -S --needed acpi acpid bash-completion blueman bluez bluez-utils firewalld fish flatpak fzf gnome-keyring gtk-engine-murrine htop hwinfo inxi nano-syntax-highlighting neovim reflector rsync rtkit scrot sysstat tlp wget xdg-user-dirs xdg-user-dirs-gtk
+pacman -S --needed acpi acpid baobab bash-completion blueman bluez bluez-utils dconf-editor firewalld fish flatpak fzf gnome-disk-utility gnome-font-viewer gnome-keyring gnome-logs gtk-engine-murrine htop hwinfo inxi lxappearance nano-syntax-highlighting neovim reflector rsync rtkit scrot sysstat tlp wget xdg-user-dirs xdg-user-dirs-gtk
+
+yay -S visual-studio-code-bin octopi awesome-git
+
+flatpak install org.mozilla.firefox com.discordapp.Discord com.spotify.Client org.videolan.VLC com.github.tchx84.Flatseal com.usebottles.bottles org.qbittorrent.qBittorrent org.openrgb.OpenGRB
 
 sudo systemctl enable acipd.service
+sudo systemctl enable bluetooth.service
 sudo systemctl enable firewalld
 sudo systemctl enable tlp
+sudo systemctl enable reflector.service
+```
+
+If we want to mount some windows disks on startup
+
+```bash
+# Find the UUID of the partitions you need to mount
+sudo blkid | grep ' UUID='
+
+# Make some mount directories
+sudo mkdir -p /mnt/windows/c
+sudo mkdir -p /mnt/windows/d
+sudo mkdir -p /mnt/windows/e
+
+# Edit fstab
+sudo /etc/fstab
+# Add new lines e.g.
+#
+# UUID=OUR_C_DRIVE_UUID /mnt/windows/c ntfs-3g defaults,nls=utf8,umask=000,dmask=027,fmask=137,uid=1000,gid=1000,windows_names 0 0
+#
+# and etc for the other drives.
 ```
