@@ -5,7 +5,7 @@
      {"Flatseal", "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=com.github.tchx84.Flatseal com.github.tchx84.Flatseal"},
      {"Fonts", "gnome-font-viewer "},
      {"Neovim", "xterm -e nvim ", "/usr/share/icons/hicolor/128x128/apps/nvim.png" },
-     {"OpenRGB", "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=openrgb org.openrgb.OpenRGB", "/var/lib/flatpak/exports/share/icons/hicolor/128x128/apps/org.openrgb.OpenRGB.png" },
+     {"OpenRGB", "openrgb", "/usr/share/icons/hicolor/128x128/apps/OpenRGB.png" },
      {"Youtube Downloader", "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=youtubedl-gui io.github.JaGoLi.ytdl_gui", "/var/lib/flatpak/exports/share/icons/hicolor/16x16/apps/io.github.JaGoLi.ytdl_gui.png" },
      {"picom", "picom"},
  }

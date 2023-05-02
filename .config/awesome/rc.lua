@@ -73,4 +73,5 @@ run_once({
     "setxkbmap gb",
     "xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applications.menu > ~/.config/awesome/archmenu.lua",
     "picom",
+    "openrgb -d 0 -m direct -c 000000 -b 0",
 })
