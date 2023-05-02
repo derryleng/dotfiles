@@ -1,7 +1,5 @@
 local awful = require'awful'
 
-local mod = require'bindings.mod'
-
 local titlebars_hidden = true
 
 client.connect_signal('request::default_keybindings', function()
@@ -14,8 +12,8 @@ client.connect_signal('request::default_keybindings', function()
          on_press    = function(c) c:kill() end,
       },
       awful.key{
-         modifiers   = {mod.super, mod.ctrl},
-         key         = 'space',
+         modifiers   = {mod.super},
+         key         = 'f',
          description = 'toggle floating',
          group       = '3. Window',
          on_press    = awful.client.floating.toggle,

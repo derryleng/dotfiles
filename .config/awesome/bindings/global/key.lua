@@ -3,11 +3,9 @@ local hotkeys_popup = require'awful.hotkeys_popup'
 require'awful.hotkeys_popup.keys'
 local menubar = require'menubar'
 
-local apps = require'config.apps'
-local mod = require'bindings.mod'
 local menu = require'widgets.menu'
 
-menubar.utils.terminal = apps.terminal
+menubar.utils.terminal = vars.terminal
 
 -- Awesome
 awful.keyboard.append_global_keybindings{
@@ -62,7 +60,7 @@ awful.keyboard.append_global_keybindings{
       key         = 'Return',
       description = 'open a terminal',
       group       = '2. Launch',
-      on_press    = function() awful.spawn(apps.terminal) end,
+      on_press    = function() awful.spawn(vars.terminal) end,
    },
    awful.key{
       modifiers   = {mod.super},
@@ -80,18 +78,11 @@ awful.keyboard.append_global_keybindings{
    },
    awful.key{
       modifiers   = {mod.super},
-      key         = 'f',
-      description = 'open a browser',
-      group       = '2. Launch',
-      on_press    = function() awful.spawn(apps.browser) end,
-   },
-   awful.key{
-      modifiers   = {mod.super},
       key         = 'a',
       description = 'launch rofi (drun)',
       group       = '2. Launch',
       on_press    = function()
-         awful.spawn(string.format('rofi -show drun -theme styles/drun.rasi -terminal %s', apps.terminal))
+         awful.spawn(string.format('rofi -show drun -theme styles/drun.rasi -terminal %s', vars.terminal))
       end,
    },
    awful.key{
@@ -100,7 +91,7 @@ awful.keyboard.append_global_keybindings{
       description = 'launch rofi (combi)',
       group       = '2. Launch',
       on_press    = function()
-         awful.spawn(string.format('rofi -show combi -theme styles/combi.rasi -terminal %s', apps.terminal))
+         awful.spawn(string.format('rofi -show combi -theme styles/combi.rasi -terminal %s', vars.terminal))
       end,
    },
    awful.key{

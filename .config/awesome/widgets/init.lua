@@ -7,7 +7,6 @@ local xresources = require'beautiful.xresources'
 local wibox = require'wibox'
 local dpi = xresources.apply_dpi
 
-local mod = require'bindings.mod'
 -- local menu = require'widgets.menu'
 local volume_widget = require'widgets.awesome-wm-widgets.volume-widget.volume'
 local spotify_widget = require'widgets.awesome-wm-widgets.spotify-widget.spotify'

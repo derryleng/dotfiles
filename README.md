@@ -1,24 +1,34 @@
 # My dotfiles
 
-> Very WIP.
+- [My dotfiles](#my-dotfiles)
+  - [Introduction](#introduction)
+  - [Arch Installation](#arch-installation)
+    - [1. Configure keyboard, internet and time](#1-configure-keyboard-internet-and-time)
+    - [2. Create and format partitions](#2-create-and-format-partitions)
+    - [3. Installation](#3-installation)
+    - [4. Configure the new system](#4-configure-the-new-system)
+    - [5. Post installation](#5-post-installation)
+    - [6. Install additional software](#6-install-additional-software)
+  - [Resources](#resources)
 
-What I currently use:
+## Introduction
 
-| Type              | Software                                                                                                                                                                                                                                                  |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Display Manager   | [ly](https://github.com/fairyglade/ly)                                                                                                                                                                                                                    |
-| DE/WM             | [bspwm](https://github.com/baskerville/bspwm) ([sxhkd](https://github.com/baskerville/sxhkd), [polybar](https://github.com/polybar/polybar))<br />[awesome-wm](https://awesomewm.org/)                                                                    |
-| Terminal Emulator | [alacritty](https://github.com/alacritty/alacritty)                                                                                                                                                                                                       |
-| Shell             | [zsh](https://www.zsh.org) ([oh-my-zsh](https://ohmyz.sh/), [powerlevel10k](https://github.com/romkatv/powerlevel10k))<br />[fish](https://fishshell.com/) ([fisher](https://github.com/jorgebucaran/fisher), [tide](https://github.com/IlanCosman/tide)) |
-| Browser           | [firefox](https://www.mozilla.org/en-US/firefox/browsers/)                                                                                                                                                                                                |
-| Editor/IDE        | [neovim](https://github.com/neovim/neovim), [vscode](https://code.visualstudio.com/)                                                                                                                                                                      |
-| File Manager      | [thunar](https://docs.xfce.org/xfce/thunar/start)                                                                                                                                                                                                         |
-| Launcher          | [rofi](https://github.com/davatorium/rofi)                                                                                                                                                                                                                |
+My dotfiles currently include configurations for:
 
-Config templates used:
-
-- AwesomeWM: https://github.com/suconakh/awesome-awesome-rc
-- Rofi: https://github.com/adi1090x/rofi
+- awesome-wm
+- bspwm
+- sxhkd
+- polybar
+- rofi
+- alacritty
+- neofetch
+- picom
+- redshift
+- bash
+- zsh
+- fish
+- gtk
+- other misc configs
 
 ## Arch Installation
 
@@ -49,7 +59,7 @@ timedatectl set-timezone "Europe/London"
 timedatectl set-ntp true
 ```
 
-## 2. Create and format partitions
+### 2. Create and format partitions
 
 First, we can view our current system partitions using:
 
@@ -105,7 +115,7 @@ mkdir -p /mnt/boot/efi
 mount /dev/nvme1n1p1 /mnt/boot/efi
 ```
 
-## 3. Installation
+### 3. Installation
 
 Use reflector to update the fastest mirrors for pacman
 
@@ -131,7 +141,7 @@ Install some essential packages using pacstrap, here we're installing:
 pacstrap /mnt base base-devel linux linux-firmware vi nano networkmanager
 ```
 
-## 3. Configure the new system
+### 4. Configure the new system
 
 After all that is done, generate an fstab file
 
@@ -226,7 +236,7 @@ umount -R /mnt
 reboot
 ```
 
-## 4. Post installation
+### 5. Post installation
 
 Assuming we have successfully booted into our new system as the new user, start up NetworkManager and connect to the internet.
 
@@ -268,7 +278,7 @@ yay -S ly
 sudo systemctl enable ly.service
 ```
 
-## 5. Install additional software
+### 6. Install additional software
 
 Install intel microcode
 
@@ -367,3 +377,10 @@ sudo /etc/fstab
 #
 # and etc for the other drives.
 ```
+
+## Resources
+
+Config templates used:
+
+- AwesomeWM: https://github.com/suconakh/awesome-awesome-rc
+- Rofi: https://github.com/adi1090x/rofi
