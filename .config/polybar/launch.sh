@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
-killall -q polybar
+killall polybar
 
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-echo "---" | tee -a /tmp/polybar1.log /tmp/polybar2.log
-polybar bspwm-1 2>&1 | tee -a /tmp/polybar1.log & disown
-polybar bspwm-6 2>&1 | tee -a /tmp/polybar2.log & disown
-
+echo "---" | tee -a /tmp/polybar-bspwm-main.log /tmp/polyba-bspwm-vert2.log
+polybar bspwm-main 2>&1 | tee -a /tmp/polybar-bspwm-main.log & disown
+polybar bspwm-vert 2>&1 | tee -a /tmp/polyba-bspwm-vert2.log & disown
