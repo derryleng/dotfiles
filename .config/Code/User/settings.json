@@ -1,0 +1,50 @@
+{
+    "telemetry.telemetryLevel": "off",
+    "security.workspace.trust.enabled": false,
+    "workbench.startupEditor": "none",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "GitHub Dark Default",
+    "window.menuBarVisibility": "toggle",
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "wt": {
+            "path": "C:\\Users\\derry\\AppData\\Local\\Microsoft\\WindowsApps\\wt.exe"
+        },
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "terminal.integrated.fontFamily": "JetbrainsMono Nerd Font",
+    "jupyter.interactiveWindow.textEditor.executeSelection": true,
+    "git.confirmSync": true,
+    "aws.telemetry": false,
+    "vsicons.dontShowNewVersionMessage": true,
+    "update.showReleaseNotes": false,
+    "editor.rulers": [
+        {
+            "column": 80,
+            "color": "#ffff0030"
+        },
+        {
+            "column": 100,
+            "color": "#ff990030"
+        },
+        {
+            "column": 120,
+            "color": "#f50a0a30"
+        },
+    ],
+}
