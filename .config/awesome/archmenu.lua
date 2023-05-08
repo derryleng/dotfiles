@@ -4,8 +4,9 @@
      {"Disks", "gnome-disks"},
      {"Flatseal", "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=com.github.tchx84.Flatseal com.github.tchx84.Flatseal"},
      {"Fonts", "gnome-font-viewer "},
-     {"Neovim", "xterm -e nvim ", "/usr/share/icons/hicolor/128x128/apps/nvim.png" },
+     {"Neovim", "alacritty -e nvim ", "/usr/share/icons/hicolor/128x128/apps/nvim.png" },
      {"OpenRGB", "openrgb", "/usr/share/icons/hicolor/128x128/apps/OpenRGB.png" },
+     {"Vim", "alacritty -e vim ", "/usr/share/icons/hicolor/48x48/apps/gvim.png" },
      {"Youtube Downloader", "/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=youtubedl-gui io.github.JaGoLi.ytdl_gui", "/var/lib/flatpak/exports/share/icons/hicolor/16x16/apps/io.github.JaGoLi.ytdl_gui.png" },
      {"picom", "picom"},
  }
@@ -37,13 +38,13 @@
      {"Alacritty", "alacritty", "/usr/share/pixmaps/Alacritty.svg" },
      {"Avahi Zeroconf Browser", "/usr/bin/avahi-discover"},
      {"Disk Usage Analyser", "baobab "},
-     {"Htop", "xterm -e htop", "/usr/share/pixmaps/htop.png" },
+     {"Htop", "alacritty -e htop", "/usr/share/pixmaps/htop.png" },
      {"Logs", "gnome-logs"},
      {"Octopi", "/usr/bin/octopi", "/usr/share/icons/octopi.png" },
      {"Octopi CacheCleaner", "/usr/bin/octopi-cachecleaner", "/usr/share/icons/octopi.png" },
      {"Thunar File Manager", "thunar ", "/usr/share/icons/hicolor/16x16/apps/org.xfce.thunar.png" },
      {"dconf Editor", "dconf-editor"},
-     {"fish", "xterm -e fish", "/usr/share/pixmaps/fish.png" },
+     {"fish", "alacritty -e fish", "/usr/share/pixmaps/fish.png" },
  }
 
 xdgmenu = {

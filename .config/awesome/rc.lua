@@ -16,18 +16,19 @@ beautiful.init(os.getenv('HOME') .. string.format('/.config/awesome/themes/%s/th
 ---------------------------------- Variables ----------------------------------
 
 vars = {
-    terminal = os.getenv('TERMINAL') or 'alacritty',
-    editor   = os.getenv('EDITOR')   or 'nvim',
-    shell    = os.getenv('SHELL')    or '/bin/bash',
+    terminal = 'alacritty',
+    editor   = 'nvim',
+    shell    = '/bin/bash',
+    explorer = 'thunar',
 }
 
 vars.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.tile.bottom,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.fair,
-    -- awful.layout.suit.tile.left,
-    -- awful.layout.suit.tile.top,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.tile.top,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.fair,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max,
@@ -71,7 +72,7 @@ end
 run_once({
     --"xrandr --output DP-2 --mode 3840x2160 --pos 0x720 --dpi 163 --output HDMI-0 --mode 1920x1080 --pos 3840x0 --rotate left --dpi 96 --scale 1.5x1.5",
     "setxkbmap gb",
-    "xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applications.menu > ~/.config/awesome/archmenu.lua",
+    "xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applications.menu > ~/.config/awesome/archmenu.lua && sed -i 's/xterm/alacritty/g' ~/.config/awesome/archmenu.lua",
     "picom",
     "openrgb -d 0 -m direct -c 000000 -b 0",
 })

@@ -155,7 +155,7 @@ function _M.create_wibox(s)
    if s.geometry.width > s.geometry.height then
       return awful.wibar{
          screen = s,
-         position = 'top',
+         position = 'bottom',
          opacity = 0.9,
          -- height = 42,
          widget = {
@@ -189,7 +189,7 @@ function _M.create_wibox(s)
    else
       return awful.wibar{
          screen = s,
-         position = 'top',
+         position = 'bottom',
          opacity = 0.9,
          height = 28,
          widget = {

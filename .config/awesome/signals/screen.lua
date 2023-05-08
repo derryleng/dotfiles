@@ -1,26 +1,26 @@
 local awful = require'awful'
--- local beautiful = require'beautiful'
--- local wibox = require'wibox'
+local beautiful = require'beautiful'
+local wibox = require'wibox'
 
 local widgets = require'widgets'
 
--- screen.connect_signal('request::wallpaper', function(s)
---    awful.wallpaper{
---       screen = s,
---       widget = {
---          {
---             image     = beautiful.wallpaper,
---             upscale   = true,
---             downscale = true,
---             widget    = wibox.widget.imagebox,
---          },
---          valign = 'center',
---          halign = 'center',
---          tiled = false,
---          widget = wibox.container.tile,
---       }
---    }
--- end)
+screen.connect_signal('request::wallpaper', function(s)
+   awful.wallpaper{
+      screen = s,
+      widget = {
+         {
+            image     = beautiful.wallpaper,
+            upscale   = true,
+            downscale = true,
+            widget    = wibox.widget.imagebox,
+         },
+         valign = 'center',
+         halign = 'center',
+         tiled = false,
+         widget = wibox.container.tile,
+      }
+   }
+end)
 
 screen.connect_signal('request::desktop_decoration', function(s)
    -- Horizontal screen
@@ -28,7 +28,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
       awful.tag(vars.tags, s, awful.layout.suit.tile)
    -- Vertical screen
    else
-      awful.tag(vars.tags_small, s, awful.layout.suit.fair.horizontal)
+      awful.tag(vars.tags_small, s, awful.layout.suit.tile.top)
    end
    s.promptbox = widgets.create_promptbox()
    s.layoutbox = widgets.create_layoutbox(s)
