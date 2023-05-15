@@ -27,10 +27,10 @@
     - [bspwm](#bspwm)
   - [Fonts](#fonts)
   - [Filesystem tools](#filesystem-tools)
-  - [Install nvidia graphics drivers](#install-nvidia-graphics-drivers)
-  - [Install cursors, icons and themes](#install-cursors-icons-and-themes)
-  - [Install some documentation](#install-some-documentation)
-  - [Install some more useful stuff and enable some services](#install-some-more-useful-stuff-and-enable-some-services)
+  - [Nvidia graphics drivers](#nvidia-graphics-drivers)
+  - [Cursors, icons and themes](#cursors-icons-and-themes)
+  - [Documentation](#documentation)
+  - [More useful stuff and enable some services](#more-useful-stuff-and-enable-some-services)
   - [Clone dotfiles](#clone-dotfiles)
 
 # My dotfiles
@@ -460,8 +460,6 @@ thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman tumbler \
 alacritty
 ```
 
-sudo pacman
-
 | Package                                   | Description                                           |
 | ----------------------------------------- | ----------------------------------------------------- |
 | xorg-server                               | Display server for X11                                |
@@ -523,25 +521,25 @@ noto-fonts-emoji
 yay -S --needed e2fsprogs btrfs-progs exfat-utils ntfs-3g smartmontools
 ```
 
-## Install nvidia graphics drivers
+## Nvidia graphics drivers
 
 ```bash
 yay -S --needed nvidia nvidia-utils nvidia-settings
 ```
 
-## Install cursors, icons and themes
+## Cursors, icons and themes
 
 ```bash
 yay -S bibata-cursor-theme-bin qogir-gtk-theme arc-gtk-theme-git papirus-icon-theme
 ```
 
-## Install some documentation
+## Documentation
 
 ```bash
 yay -S --needed man-db man-pages texinfo tldr
 ```
 
-## Install some more useful stuff and enable some services
+## More useful stuff and enable some services
 
 ```bash
 yay -S --needed acpi acpid baobab bash-completion discord firewalld \
