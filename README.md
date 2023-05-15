@@ -24,8 +24,7 @@
   - [Sound (pipewire)](#sound-pipewire)
   - [DE/WM](#dewm)
     - [awesome](#awesome)
-    - [bspwm (Xorg)](#bspwm-xorg)
-    - [GNOME (Xorg)](#gnome-xorg)
+    - [bspwm](#bspwm)
   - [Fonts](#fonts)
   - [Filesystem tools](#filesystem-tools)
   - [Install nvidia graphics drivers](#install-nvidia-graphics-drivers)
@@ -334,191 +333,225 @@ See more details here: https://github.com/fairyglade/ly
 
 ## Sound (pipewire)
 
-| Package             | Description | Notes |
-| ------------------- | ----------- | ----- |
-| alsa-firmware       |             |       |
-| alsa-plugins        |             |       |
-| alsa-utils          |             |       |
-| gst-plugin-pipewire |             |       |
-| pavucontrol         |             |       |
-| pipewire            |             |       |
-| pipewire-alsa       |             |       |
-| pipewire-jack       |             |       |
-| pipewire-pulse      |             |       |
-| wireplumber         |             |       |
+| Package             | Description |
+| ------------------- | ----------- |
+| alsa-firmware       |             |
+| alsa-plugins        |             |
+| alsa-utils          |             |
+| gst-plugin-pipewire |             |
+| pavucontrol         |             |
+| pipewire            |             |
+| pipewire-alsa       |             |
+| pipewire-jack       |             |
+| pipewire-pulse      |             |
+| wireplumber         |             |
+
+```bash
+yay -S alsa-firmware alsa-plugins alsa-utils gst-plugin-firmware pavucontrol \
+pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
+```
 
 ## DE/WM
 
 ### awesome
 
-| Package                  | Description                         | Notes |
-| ------------------------ | ----------------------------------- | ----- |
-| alacritty                | Terminal emulator                   |       |
-| archlinux-xdg-menu       |                                     |       |
-| xorg-server              | Display server for X11              |       |
-| xbindkeys                |                                     |       |
-| xclip                    |                                     |       |
-| xdo                      |                                     |       |
-| xorg-xbacklight          |                                     |       |
-| xorg-xdpyinfo            |                                     |       |
-| xorg-xinit               |                                     |       |
-| xorg-xinput              |                                     |       |
-| xorg-xkill               |                                     |       |
-| xorg-xrandr              |                                     |       |
-| xorg-xsetroot            |                                     |       |
-| picom                    |                                     |       |
-| rofi                     |                                     |       |
-| dunst                    |                                     |       |
-| dmenu                    |                                     |       |
-| awesome-git              |                                     | AUR   |
-| luarocks                 |                                     |       |
-| blueman                  |                                     |       |
-| bluez                    |                                     |       |
-| bluez-utils              |                                     |       |
-| gvfs                     | File dialog                         |       |
-| gvfs-afc                 | AFC (mobile devices) support        |       |
-| gvfs-gphoto2             | PTP camera/MTP media player support |       |
-| gvfs-mtp                 | MTP device support                  |       |
-| gvfs-nfs                 | NFS support                         |       |
-| gvfs-smb                 | SMB/CIFS (Windows client) support   |       |
-| thunar                   | File browser                        |       |
-| thunar-archive-plugin    |                                     |       |
-| thunar-media-tags-plugin |                                     |       |
-| thunar-volman            |                                     |       |
-| tumbler                  |                                     |       |
+| Package                  | Description                         |
+| ------------------------ | ----------------------------------- |
+| xorg-server              | Display server for X11              |
+| xbindkeys                |                                     |
+| xclip                    |                                     |
+| xdo                      |                                     |
+| xorg-xbacklight          |                                     |
+| xorg-xdpyinfo            |                                     |
+| xorg-xinit               |                                     |
+| xorg-xinput              |                                     |
+| xorg-xkill               |                                     |
+| xorg-xrandr              |                                     |
+| xorg-xsetroot            |                                     |
+| archlinux-xdg-menu       |                                     |
+| picom                    |                                     |
+| rofi                     |                                     |
+| dunst                    |                                     |
+| dmenu                    |                                     |
+| (AUR) awesome-git        |                                     |
+| luarocks                 |                                     |
+| volumeicon               |                                     |
+| network-manager-applet   |                                     |
+| ibus                     | Keyboard layouts and input methods  |
+| blueman                  |                                     |
+| bluez                    |                                     |
+| bluez-utils              |                                     |
+| gvfs                     | File dialog                         |
+| gvfs-afc                 | AFC (mobile devices) support        |
+| gvfs-gphoto2             | PTP camera/MTP media player support |
+| gvfs-mtp                 | MTP device support                  |
+| gvfs-nfs                 | NFS support                         |
+| gvfs-smb                 | SMB/CIFS (Windows client) support   |
+| thunar                   | File browser                        |
+| thunar-archive-plugin    |                                     |
+| thunar-media-tags-plugin |                                     |
+| thunar-volman            |                                     |
+| tumbler                  |                                     |
+| alacritty                | Terminal emulator                   |
 
-### bspwm (Xorg)
+```bash
+yay -S --needed xorg-server xbindkeys xclip xdo xorg-xbacklight xorg-xdpyinfo  \
+xorg-xinit xorg-xinput xorg-xkill xorg-xrandr xorg-xsetroot archlinux-xdg-menu \
+picom rofi dmenu dunst \
+awesome-git luarocks \
+volumeicon network-manager-applet ibus \
+blueman bluez bluez-utils \
+gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman tumbler \
+alacritty
+```
 
-| Package                  | Description                         | Notes |
-| ------------------------ | ----------------------------------- | ----- |
-| alacritty                | Terminal emulator                   |       |
-| archlinux-xdg-menu       |                                     |       |
-| xorg-server              | Display server for X11              |       |
-| xbindkeys                |                                     |       |
-| xclip                    |                                     |       |
-| xdo                      |                                     |       |
-| xorg-xbacklight          |                                     |       |
-| xorg-xdpyinfo            |                                     |       |
-| xorg-xinit               |                                     |       |
-| xorg-xinput              |                                     |       |
-| xorg-xkill               |                                     |       |
-| xorg-xrandr              |                                     |       |
-| xorg-xsetroot            |                                     |       |
-| picom                    |                                     |       |
-| rofi                     |                                     |       |
-| dmenu                    |                                     |       |
-| dunst                    |                                     |       |
-| bspwm                    |                                     |       |
-| sxhkd                    |                                     |       |
-| polybar                  |                                     |       |
-| volumeicon               |                                     |       |
-| network-manager-applet   |                                     |       |
-| blueman                  |                                     |       |
-| bluez                    |                                     |       |
-| bluez-utils              |                                     |       |
-| gvfs                     | File dialog                         |       |
-| gvfs-afc                 | AFC (mobile devices) support        |       |
-| gvfs-gphoto2             | PTP camera/MTP media player support |       |
-| gvfs-mtp                 | MTP device support                  |       |
-| gvfs-nfs                 | NFS support                         |       |
-| gvfs-smb                 | SMB/CIFS (Windows client) support   |       |
-| thunar                   | File browser                        |       |
-| thunar-archive-plugin    |                                     |       |
-| thunar-media-tags-plugin |                                     |       |
-| thunar-volman            |                                     |       |
-| tumbler                  |                                     |       |
+### bspwm
 
-### GNOME (Xorg)
+| Package                  | Description                         |
+| ------------------------ | ----------------------------------- |
+| xorg-server              | Display server for X11              |
+| xbindkeys                |                                     |
+| xclip                    |                                     |
+| xdo                      |                                     |
+| xorg-xbacklight          |                                     |
+| xorg-xdpyinfo            |                                     |
+| xorg-xinit               |                                     |
+| xorg-xinput              |                                     |
+| xorg-xkill               |                                     |
+| xorg-xrandr              |                                     |
+| xorg-xsetroot            |                                     |
+| archlinux-xdg-menu       |                                     |
+| picom                    |                                     |
+| rofi                     |                                     |
+| dmenu                    |                                     |
+| dunst                    |                                     |
+| bspwm                    |                                     |
+| sxhkd                    |                                     |
+| polybar                  |                                     |
+| volumeicon               |                                     |
+| network-manager-applet   |                                     |
+| ibus                     | Keyboard layouts and input methods  |
+| blueman                  |                                     |
+| bluez                    |                                     |
+| bluez-utils              |                                     |
+| gvfs                     | File dialog                         |
+| gvfs-afc                 | AFC (mobile devices) support        |
+| gvfs-gphoto2             | PTP camera/MTP media player support |
+| gvfs-mtp                 | MTP device support                  |
+| gvfs-nfs                 | NFS support                         |
+| gvfs-smb                 | SMB/CIFS (Windows client) support   |
+| thunar                   | File browser                        |
+| thunar-archive-plugin    |                                     |
+| thunar-media-tags-plugin |                                     |
+| thunar-volman            |                                     |
+| tumbler                  |                                     |
+| alacritty                | Terminal emulator                   |
 
-| Package                             | Description                                           | Notes |
-| ----------------------------------- | ----------------------------------------------------- | ----- |
-| alacritty                           | Terminal emulator                                     |       |
-| archlinux-xdg-menu                  |                                                       |       |
-| xorg-server                         | Display server for X11                                |       |
-| xbindkeys                           |                                                       |       |
-| xclip                               |                                                       |       |
-| xdo                                 |                                                       |       |
-| xorg-xbacklight                     |                                                       |       |
-| xorg-xdpyinfo                       |                                                       |       |
-| xorg-xinit                          |                                                       |       |
-| xorg-xinput                         |                                                       |       |
-| xorg-xkill                          |                                                       |       |
-| xorg-xrandr                         |                                                       |       |
-| xorg-xsetroot                       |                                                       |       |
-| gnome-shell                         |                                                       |       |
-| gnome-bluetooth-3.0                 | Optional GNOME dependency for bluetooth support       |       |
-| gnome-control-center                | Optional GNOME dependency for system settings         |       |
-| gnome-disk-utility                  | Optional GNOME dependency for mount with keyfiles     |       |
-| gst-plugin-pipewire                 | Optional GNOME dependency for screen recording        |       |
-| gst-plugins-good                    | Optional GNOME dependency for screen recording        |       |
-| power-profiles-daemon               | Optional GNOME dependency for power profile switching |       |
-| extension-manager                   | Browsing, installing, managing GNOME shell extensions | AUR   |
-| gnome-tweaks                        |                                                       |       |
-| dconf-editor                        |                                                       |       |
-| gnome-shell-extension-pop-shell-git | GNOME shell extension for tiling windows              | AUR   |
-| nautilus                            | Native GNOME file browser                             |       |
-| gvfs                                | File dialog                                           |       |
-| gvfs-afc                            | AFC (mobile devices) support                          |       |
-| gvfs-gphoto2                        | PTP camera/MTP media player support                   |       |
-| gvfs-mtp                            | MTP device support                                    |       |
-| gvfs-nfs                            | NFS support                                           |       |
-| gvfs-smb                            | SMB/CIFS (Windows client) support                     |       |
+```bash
+yay -S --needed xorg-server xbindkeys xclip xdo xorg-xbacklight xorg-xdpyinfo  \
+xorg-xinit xorg-xinput xorg-xkill xorg-xrandr xorg-xsetroot archlinux-xdg-menu \
+picom rofi dmenu dunst \
+bspwm sxhkd polybar \
+volumeicon network-manager-applet ibus \
+blueman bluez bluez-utils \
+gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman tumbler \
+alacritty
+```
+
+sudo pacman
+
+| Package                                   | Description                                           |
+| ----------------------------------------- | ----------------------------------------------------- |
+| xorg-server                               | Display server for X11                                |
+| xbindkeys                                 |                                                       |
+| xclip                                     |                                                       |
+| xdo                                       |                                                       |
+| xorg-xbacklight                           |                                                       |
+| xorg-xdpyinfo                             |                                                       |
+| xorg-xinit                                |                                                       |
+| xorg-xinput                               |                                                       |
+| xorg-xkill                                |                                                       |
+| xorg-xrandr                               |                                                       |
+| xorg-xsetroot                             |                                                       |
+| archlinux-xdg-menu                        |                                                       |
+| gnome-shell                               |                                                       |
+| gnome-bluetooth-3.0                       | Optional GNOME dependency for bluetooth support       |
+| gnome-control-center                      | Optional GNOME dependency for system settings         |
+| gnome-disk-utility                        | Optional GNOME dependency for mount with keyfiles     |
+| gst-plugin-pipewire                       | Optional GNOME dependency for screen recording        |
+| gst-plugins-good                          | Optional GNOME dependency for screen recording        |
+| power-profiles-daemon                     | Optional GNOME dependency for power profile switching |
+| (AUR) extension-manager                   | Browsing, installing, managing GNOME shell extensions |
+| gnome-tweaks                              |                                                       |
+| dconf-editor                              |                                                       |
+| (AUR) gnome-shell-extension-pop-shell-git | GNOME shell extension for tiling windows              |
+| gvfs                                      | File dialog                                           |
+| gvfs-afc                                  | AFC (mobile devices) support                          |
+| gvfs-gphoto2                              | PTP camera/MTP media player support                   |
+| gvfs-mtp                                  | MTP device support                                    |
+| gvfs-nfs                                  | NFS support                                           |
+| gvfs-smb                                  | SMB/CIFS (Windows client) support                     |
+| nautilus                                  | Native GNOME file browser                             |
+| alacritty                                 | Terminal emulator                                     |
+
+```bash
+yay -S --needed xorg-server xbindkeys xclip xdo xorg-xbacklight xorg-xdpyinfo \
+xorg-xinit xorg-xinput xorg-xkill xorg-xrandr xorg-xsetroot archlinux-xdg-menu \
+gnome-shell gnome-bluetooth-3.0 gnome-control-center gnome-disk-utility \
+gst-plugin-pipewire gst-plugins-good power-profiles-daemon \
+extension-manager gnome-tweaks dconf-editor gnome-shell-extension-pop-shell-git \
+gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb \
+nautilus alacritty
+```
 
 ## Fonts
 
-| Package                        | Description   | Notes |
-| ------------------------------ | ------------- | ----- |
-| adobe-source-code-pro-fonts    |               |       |
-| adobe-source-han-sans-cn-fonts |               |       |
-| adobe-source-han-sans-jp-fonts |               |       |
-| adobe-source-han-sans-kr-fonts |               |       |
-| cantarell-fonts                |               |       |
-| freetype2                      |               |       |
-| noto-fonts                     |               |       |
-| ttf-bitstream-vera             |               |       |
-| ttf-dejavu                     |               |       |
-| ttf-liberation                 |               |       |
-| ttf-opensans                   |               |       |
-| ttf-jetbrains-mono-nerd        | Terminal font |       |
-| ttf-nerd-fonts-symbols-2048-em |               |       |
-| ttf-font-awesome               |               |       |
-| noto-fonts                     |               |       |
-| noto-fonts-emoji               |               |       |
+```bash
+yay -S adobe-source-code-pro-fonts adobe-source-han-sans-cn-fonts  \
+adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts      \
+cantarell-fonts freetype2 ttf-bitstream-vera ttf-dejavu            \
+ttf-liberation ttf-opensans ttf-jetbrains-mono-nerd                \
+ttf-nerd-fonts-symbols-2048-em ttf-font-awesome noto-fonts         \
+noto-fonts-emoji
+```
 
 ## Filesystem tools
 
 ```bash
-sudo pacman -S --needed e2fsprogs btrfs-progs exfat-utils ntfs-3g smartmontools
+yay -S --needed e2fsprogs btrfs-progs exfat-utils ntfs-3g smartmontools
 ```
 
 ## Install nvidia graphics drivers
 
 ```bash
-sudo pacman -S --needed nvidia nvidia-utils nvidia-settings
+yay -S --needed nvidia nvidia-utils nvidia-settings
 ```
 
 ## Install cursors, icons and themes
 
 ```bash
-yay -S bibata-cursor-theme-bin qogir-gtk-theme arc-gtk-theme-git
-
-sudo pacman -S papirus-icon-theme
+yay -S bibata-cursor-theme-bin qogir-gtk-theme arc-gtk-theme-git papirus-icon-theme
 ```
 
 ## Install some documentation
 
 ```bash
-sudo pacman -S --needed man-db man-pages texinfo tldr
+yay -S --needed man-db man-pages texinfo tldr
 ```
 
 ## Install some more useful stuff and enable some services
 
 ```bash
-sudo pacman -S --needed acpi acpid baobab bash-completion discord firewalld firefox fish flatpak fzf gnome-disk-utility gnome-font-viewer gnome-keyring gnome-logs htop hwinfo inxi lxappearance nano-syntax-highlighting neovim polkit reflector rsync rtkit scrot sysstat tlp vlc wget xdg-user-dirs xdg-user-dirs-gtk
+yay -S --needed acpi acpid baobab bash-completion discord firewalld \
+firefox fish flatpak fzf gnome-disk-utility gnome-font-viewer       \
+gnome-keyring gnome-logs htop hwinfo inxi lxappearance              \
+nano-syntax-highlighting neovim polkit reflector rsync rtkit scrot  \
+sysstat tlp vlc wget xdg-user-dirs xdg-user-dirs-gtk                \
+visual-studio-code-bin octopi spotify
 
-yay -S visual-studio-code-bin octopi spotify
-
-flatpak install com.github.tchx84.Flatseal com.usebottles.bottles
+flatpak install flathub com.github.tchx84.Flatseal com.usebottles.bottles
 
 sudo systemctl enable acipd.service
 sudo systemctl enable bluetooth.service
