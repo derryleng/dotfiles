@@ -1,17 +1,42 @@
+- [My dotfiles](#my-dotfiles)
+  - [Summary](#summary)
+  - [Resources](#resources)
+- [Install Instructions](#install-instructions)
+  - [Arch](#arch)
+    - [Configure keyboard layout](#configure-keyboard-layout)
+    - [Connect to the internet](#connect-to-the-internet)
+    - [Update system clock](#update-system-clock)
+    - [Create partitions](#create-partitions)
+    - [Format partitions](#format-partitions)
+    - [Mount partitions](#mount-partitions)
+    - [Update mirrors and package lists](#update-mirrors-and-package-lists)
+    - [Install base packages](#install-base-packages)
+    - [Generate fstab file](#generate-fstab-file)
+    - [Change root into new system](#change-root-into-new-system)
+    - [Update user account settings](#update-user-account-settings)
+    - [Adjust clock, locale and keyboard layout](#adjust-clock-locale-and-keyboard-layout)
+    - [Set the hostname](#set-the-hostname)
+    - [Install bootloader (grub)](#install-bootloader-grub)
+    - [Exit chroot and reboot](#exit-chroot-and-reboot)
+    - [Connect to internet on new system](#connect-to-internet-on-new-system)
+  - [AUR helper (yay)](#aur-helper-yay)
+  - [Display manager (ly)](#display-manager-ly)
+  - [Sound (pipewire)](#sound-pipewire)
+  - [DE/WM](#dewm)
+    - [awesome](#awesome)
+    - [bspwm (Xorg)](#bspwm-xorg)
+    - [GNOME (Xorg)](#gnome-xorg)
+  - [Fonts](#fonts)
+  - [Filesystem tools](#filesystem-tools)
+  - [Install nvidia graphics drivers](#install-nvidia-graphics-drivers)
+  - [Install cursors, icons and themes](#install-cursors-icons-and-themes)
+  - [Install some documentation](#install-some-documentation)
+  - [Install some more useful stuff and enable some services](#install-some-more-useful-stuff-and-enable-some-services)
+  - [Clone dotfiles](#clone-dotfiles)
+
 # My dotfiles
 
-- [My dotfiles](#my-dotfiles)
-  - [Introduction](#introduction)
-  - [Arch Installation](#arch-installation)
-    - [1. Configure keyboard, internet and time](#1-configure-keyboard-internet-and-time)
-    - [2. Create and format partitions](#2-create-and-format-partitions)
-    - [3. Installation](#3-installation)
-    - [4. Configure the new system](#4-configure-the-new-system)
-    - [5. Post installation](#5-post-installation)
-    - [6. Install additional software](#6-install-additional-software)
-  - [Resources](#resources)
-
-## Introduction
+## Summary
 
 My dotfiles currently include configurations for:
 
@@ -30,36 +55,45 @@ My dotfiles currently include configurations for:
 - gtk
 - other misc configs
 
-## Arch Installation
+## Resources
+
+Config templates used:
+
+- AwesomeWM: https://github.com/suconakh/awesome-awesome-rc
+- Rofi: https://github.com/adi1090x/rofi
+
+# Install Instructions
+
+> I'm using this section to keep track of the steps I have taken during install, this is not thoroughly tested so not guaranteed to work 100%!
+
+## Arch
 
 See the Arch wiki for more details: https://wiki.archlinux.org/title/Installation_guide
 
-### 1. Configure keyboard, internet and time
-
-Set the keyboard layout
+### Configure keyboard layout
 
 ```bash
 loadkeys uk
 ```
 
-Connect to the internet
+### Connect to the internet
 
 ```bash
 iwctl
-# Then in the iwctl prompt write:
+# Then in the iwctl prompt do:
 #   station wlan0 scan
 #   station wlan0 get-networks
 #   station wlan0 connect ...OUR_SSID...
 ```
 
-Update the system clock
+### Update system clock
 
 ```bash
 timedatectl set-timezone "Europe/London"
 timedatectl set-ntp true
 ```
 
-### 2. Create and format partitions
+### Create partitions
 
 First, we can view our current system partitions using:
 
@@ -69,21 +103,21 @@ lsblk
 fdisk -l
 ```
 
-Use the fdisk utility to create any required partition (here assuming we're using the disk nvme1n1):
+Use the fdisk utility to create any required partition (here assuming we're using the disk **nvme1n1**):
 
 ```bash
 fdisk /dev/nvme1n1
 # Then follow instructions, don't write out using "w" until we are absolutely sure.
 ```
 
-Note:
+NB:
 
 - If installing alongside another OS (e.g. Windows), we can just use the existing EFI partition.
 - EFI partition size recommended between 512MB to 1GB.
 - Swap partition is optional, size recommended between $\sqrt{\text{RAM Size}}$ to $2 \times \text{RAM Size}$.
 - Root partition should take up rest of the disk (however much free space we want or have left).
 
-Once, any new partitions are created, we format the new partitions.
+### Format partitions
 
 ```bash
 # Assuming we made a new partition nvme1n1p1 for EFI boot, format it.
@@ -101,7 +135,7 @@ mkfs.ext4 /dev/nvme1n1p3
 mkfs.btrfs /dev/nvme1n1p3
 ```
 
-Mount the partitions
+### Mount partitions
 
 ```bash
 # Mount the swap
@@ -115,35 +149,37 @@ mkdir -p /mnt/boot/efi
 mount /dev/nvme1n1p1 /mnt/boot/efi
 ```
 
-### 3. Installation
+### Update mirrors and package lists
 
-Use reflector to update the fastest mirrors for pacman
+Use reflector to update the fastest mirrors for pacman.
 
 ```bash
 reflector --country GB --protocol https --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
-Make sure package lists are up to date
+Make sure package lists are up to date.
 
 ```bash
 pacman -Sy
 ```
 
+### Install base packages
+
 Install some essential packages using pacstrap, here we're installing:
 
 - Base and base development packages
-- Linux kernel
-- Linux firmware for common hardware
-- Basic text editor (vi and nano)
+- Linux kernel and header files
+- Linux firmware
+- Intel microcode (for Intel CPU)
+- Basic text editors (vi and nano)
 - Networking (using NetworkManager)
+- Git for cloning repos
 
 ```bash
-pacstrap /mnt base base-devel linux linux-firmware vi nano networkmanager
+pacstrap /mnt base base-devel linux linux-headers linux-firmware intel-ucode vi nano networkmanager git
 ```
 
-### 4. Configure the new system
-
-After all that is done, generate an fstab file
+### Generate fstab file
 
 ```bash
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -152,46 +188,82 @@ genfstab -U /mnt >> /mnt/etc/fstab
 nano /mnt/etc/fstab
 ```
 
-Now we can change root into the new system
+If we want to mount some windows disks on startup:
+
+```bash
+# Find the UUID of the partitions you need to mount
+sudo blkid | grep ' UUID='
+
+# Make some mount directories
+sudo mkdir -p /mnt/windows/c
+sudo mkdir -p /mnt/windows/d
+# etc...
+
+# Edit fstab
+sudo /etc/fstab
+# Add new lines e.g.
+#
+# UUID=OUR_C_DRIVE_UUID /mnt/windows/c ntfs-3g defaults,nls=utf8,umask=000,dmask=027,fmask=137,uid=1000,gid=1000,windows_names 0 0
+#
+# and etc for the other drives.
+```
+
+### Change root into new system
 
 ```bash
 arch-chroot /mnt
 ```
 
-**We should now be in the new system as root**
+**We should now be root user in the new system.**
 
-Update the password for root user
+### Update user account settings
+
+Update the password for root user.
 
 ```bash
 passwd
 ```
 
-Adjust clock and time zone
+Create a new user account (replace newuser with name of our account) and then add them to sudoers.
+
+```bash
+useradd -m -G wheel -s /bin/bash newuser
+passwd newuser
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
+```
+
+We can also edit /etc/sudoers to allow non-sudo use of shutdown, reboot, mount, umount.
+
+```bash
+sed -i 's+# %wheel ALL=(ALL:ALL) NOPASSWD: ALL+%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/sbin/mount,/sbin/umount+g' /etc/sudoers
+```
+
+### Adjust clock, locale and keyboard layout
 
 ```bash
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
 hwclock --systohc
 ```
 
-Uncomment the correct line in /etc/locale.gen and generate the locales
+Uncomment the correct line in /etc/locale.gen and generate the locales.
 
 ```bash
 sed -i 's/#en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/g' /etc/locale.gen
 locale-gen
 ```
 
-Set the language and keyboard layout
-
 ```bash
 echo "LANG=en_GB.UTF-8" > /etc/locale.conf
 echo "KEYMAP=uk" > /etc/vconsole.conf
 ```
 
-Set the hostname
+### Set the hostname
 
 ```bash
 echo "myhostname" > /etc/hostname
 ```
+
+### Install bootloader (grub)
 
 Install the bootloader, here we are using Grub for EFI boot. We're also using os-prober so that we can detect other bootloaders - skip the last two steps if we don't need this.
 
@@ -214,19 +286,7 @@ update-grub
 # chmod 755 /usr/sbin/update-grub
 ```
 
-Create a new user account (replace newuser with name of our account) and then add them to sudoers.
-
-```bash
-useradd -m -G wheel -s /bin/bash newuser
-passwd newuser
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
-```
-
-We can also edit /etc/sudoers to allow non-sudo use of shutdown, reboot, mount, umount.
-
-```bash
-sed -i 's+# %wheel ALL=(ALL:ALL) NOPASSWD: ALL+%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/shutdown,/usr/bin/reboot,/sbin/mount,/sbin/umount+g' /etc/sudoers
-```
+### Exit chroot and reboot
 
 Now we should have a minimal working system, we exit out of the system, unmount the partitions and then reboot.
 
@@ -236,7 +296,7 @@ umount -R /mnt
 reboot
 ```
 
-### 5. Post installation
+### Connect to internet on new system
 
 Assuming we have successfully booted into our new system as the new user, start up NetworkManager and connect to the internet.
 
@@ -248,17 +308,7 @@ sudo systemctl start NetworkManager.service
 nmtui
 ```
 
-Clone my dotfiles
-
-```bash
-sudo pacman -S --needed git
-git clone --bare https://github.com/derryleng/dotfiles.git /home/derry/.dotfiles
-alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
-dotfiles config --local status.showUntrackedFiles no
-dotfiles checkout
-```
-
-Install and setup yay (https://github.com/Jguer/yay)
+## AUR helper (yay)
 
 ```bash
 mkdir repos
@@ -271,58 +321,183 @@ yay -Syu --devel
 yay -Y --devel --save
 ```
 
-Install and enable ly
+See more details here: https://github.com/Jguer/yay
+
+## Display manager (ly)
 
 ```bash
 yay -S ly
 sudo systemctl enable ly.service
 ```
 
-### 6. Install additional software
+See more details here: https://github.com/fairyglade/ly
 
-Install intel microcode
+## Sound (pipewire)
 
-```bash
-sudo pacman -S --needed intel-ucode
-```
+| Package             | Description | Notes |
+| ------------------- | ----------- | ----- |
+| alsa-firmware       |             |       |
+| alsa-plugins        |             |       |
+| alsa-utils          |             |       |
+| gst-plugin-pipewire |             |       |
+| pavucontrol         |             |       |
+| pipewire            |             |       |
+| pipewire-alsa       |             |       |
+| pipewire-jack       |             |       |
+| pipewire-pulse      |             |       |
+| wireplumber         |             |       |
 
-Install filesystem tools
+## DE/WM
+
+### awesome
+
+| Package                  | Description                         | Notes |
+| ------------------------ | ----------------------------------- | ----- |
+| alacritty                | Terminal emulator                   |       |
+| archlinux-xdg-menu       |                                     |       |
+| xorg-server              | Display server for X11              |       |
+| xbindkeys                |                                     |       |
+| xclip                    |                                     |       |
+| xdo                      |                                     |       |
+| xorg-xbacklight          |                                     |       |
+| xorg-xdpyinfo            |                                     |       |
+| xorg-xinit               |                                     |       |
+| xorg-xinput              |                                     |       |
+| xorg-xkill               |                                     |       |
+| xorg-xrandr              |                                     |       |
+| xorg-xsetroot            |                                     |       |
+| picom                    |                                     |       |
+| rofi                     |                                     |       |
+| dunst                    |                                     |       |
+| dmenu                    |                                     |       |
+| awesome-git              |                                     | AUR   |
+| luarocks                 |                                     |       |
+| blueman                  |                                     |       |
+| bluez                    |                                     |       |
+| bluez-utils              |                                     |       |
+| gvfs                     | File dialog                         |       |
+| gvfs-afc                 | AFC (mobile devices) support        |       |
+| gvfs-gphoto2             | PTP camera/MTP media player support |       |
+| gvfs-mtp                 | MTP device support                  |       |
+| gvfs-nfs                 | NFS support                         |       |
+| gvfs-smb                 | SMB/CIFS (Windows client) support   |       |
+| thunar                   | File browser                        |       |
+| thunar-archive-plugin    |                                     |       |
+| thunar-media-tags-plugin |                                     |       |
+| thunar-volman            |                                     |       |
+| tumbler                  |                                     |       |
+
+### bspwm (Xorg)
+
+| Package                  | Description                         | Notes |
+| ------------------------ | ----------------------------------- | ----- |
+| alacritty                | Terminal emulator                   |       |
+| archlinux-xdg-menu       |                                     |       |
+| xorg-server              | Display server for X11              |       |
+| xbindkeys                |                                     |       |
+| xclip                    |                                     |       |
+| xdo                      |                                     |       |
+| xorg-xbacklight          |                                     |       |
+| xorg-xdpyinfo            |                                     |       |
+| xorg-xinit               |                                     |       |
+| xorg-xinput              |                                     |       |
+| xorg-xkill               |                                     |       |
+| xorg-xrandr              |                                     |       |
+| xorg-xsetroot            |                                     |       |
+| picom                    |                                     |       |
+| rofi                     |                                     |       |
+| dmenu                    |                                     |       |
+| dunst                    |                                     |       |
+| bspwm                    |                                     |       |
+| sxhkd                    |                                     |       |
+| polybar                  |                                     |       |
+| volumeicon               |                                     |       |
+| network-manager-applet   |                                     |       |
+| blueman                  |                                     |       |
+| bluez                    |                                     |       |
+| bluez-utils              |                                     |       |
+| gvfs                     | File dialog                         |       |
+| gvfs-afc                 | AFC (mobile devices) support        |       |
+| gvfs-gphoto2             | PTP camera/MTP media player support |       |
+| gvfs-mtp                 | MTP device support                  |       |
+| gvfs-nfs                 | NFS support                         |       |
+| gvfs-smb                 | SMB/CIFS (Windows client) support   |       |
+| thunar                   | File browser                        |       |
+| thunar-archive-plugin    |                                     |       |
+| thunar-media-tags-plugin |                                     |       |
+| thunar-volman            |                                     |       |
+| tumbler                  |                                     |       |
+
+### GNOME (Xorg)
+
+| Package                             | Description                                           | Notes |
+| ----------------------------------- | ----------------------------------------------------- | ----- |
+| alacritty                           | Terminal emulator                                     |       |
+| archlinux-xdg-menu                  |                                                       |       |
+| xorg-server                         | Display server for X11                                |       |
+| xbindkeys                           |                                                       |       |
+| xclip                               |                                                       |       |
+| xdo                                 |                                                       |       |
+| xorg-xbacklight                     |                                                       |       |
+| xorg-xdpyinfo                       |                                                       |       |
+| xorg-xinit                          |                                                       |       |
+| xorg-xinput                         |                                                       |       |
+| xorg-xkill                          |                                                       |       |
+| xorg-xrandr                         |                                                       |       |
+| xorg-xsetroot                       |                                                       |       |
+| gnome-shell                         |                                                       |       |
+| gnome-bluetooth-3.0                 | Optional GNOME dependency for bluetooth support       |       |
+| gnome-control-center                | Optional GNOME dependency for system settings         |       |
+| gnome-disk-utility                  | Optional GNOME dependency for mount with keyfiles     |       |
+| gst-plugin-pipewire                 | Optional GNOME dependency for screen recording        |       |
+| gst-plugins-good                    | Optional GNOME dependency for screen recording        |       |
+| power-profiles-daemon               | Optional GNOME dependency for power profile switching |       |
+| extension-manager                   | Browsing, installing, managing GNOME shell extensions | AUR   |
+| gnome-tweaks                        |                                                       |       |
+| dconf-editor                        |                                                       |       |
+| gnome-shell-extension-pop-shell-git | GNOME shell extension for tiling windows              | AUR   |
+| nautilus                            | Native GNOME file browser                             |       |
+| gvfs                                | File dialog                                           |       |
+| gvfs-afc                            | AFC (mobile devices) support                          |       |
+| gvfs-gphoto2                        | PTP camera/MTP media player support                   |       |
+| gvfs-mtp                            | MTP device support                                    |       |
+| gvfs-nfs                            | NFS support                                           |       |
+| gvfs-smb                            | SMB/CIFS (Windows client) support                     |       |
+
+## Fonts
+
+| Package                        | Description   | Notes |
+| ------------------------------ | ------------- | ----- |
+| adobe-source-code-pro-fonts    |               |       |
+| adobe-source-han-sans-cn-fonts |               |       |
+| adobe-source-han-sans-jp-fonts |               |       |
+| adobe-source-han-sans-kr-fonts |               |       |
+| cantarell-fonts                |               |       |
+| freetype2                      |               |       |
+| noto-fonts                     |               |       |
+| ttf-bitstream-vera             |               |       |
+| ttf-dejavu                     |               |       |
+| ttf-liberation                 |               |       |
+| ttf-opensans                   |               |       |
+| ttf-jetbrains-mono-nerd        | Terminal font |       |
+| ttf-nerd-fonts-symbols-2048-em |               |       |
+| ttf-font-awesome               |               |       |
+| noto-fonts                     |               |       |
+| noto-fonts-emoji               |               |       |
+
+## Filesystem tools
 
 ```bash
 sudo pacman -S --needed e2fsprogs btrfs-progs exfat-utils ntfs-3g smartmontools
 ```
 
-Install fonts
+## Install nvidia graphics drivers
 
 ```bash
-sudo pacman -S --needed adobe-source-code-pro-fonts adobe-source-han-sans-cn-fonts adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts cantarell-fonts freetype2 noto-fonts ttf-bitstream-vera ttf-dejavu ttf-liberation ttf-opensans ttf-jetbrains-mono-nerd ttf-nerd-fonts-symbols-2048-em ttf-font-awesome noto-fonts noto-fonts-emoji
+sudo pacman -S --needed nvidia nvidia-utils nvidia-settings
 ```
 
-Install X display server
-
-```bash
-sudo pacman -S --needed xorg-server
-```
-
-Install desktop packages
-
-```bash
-sudo pacman -S --needed alacritty archlinux-xdg-menu bspwm picom polybar rofi sxhkd xbindkeys xclip xdo xorg-xbacklight xorg-xdpyinfo xorg-xinit xorg-xinput xorg-xkill xorg-xrandr xorg-xsetroot
-```
-
-Install pipewire for sound
-
-```bash
-sudo pacman -S --needed alsa-firmware alsa-plugins alsa-utils gst-plugin-pipewire pavucontrol pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
-```
-
-Install nvidia graphics drivers
-
-```bash
-pacman -S --needed nvidia nvidia-utils nvidia-settings
-```
-
-Install cursors, icons and themes
+## Install cursors, icons and themes
 
 ```bash
 yay -S bibata-cursor-theme-bin qogir-gtk-theme arc-gtk-theme-git
@@ -330,26 +505,20 @@ yay -S bibata-cursor-theme-bin qogir-gtk-theme arc-gtk-theme-git
 sudo pacman -S papirus-icon-theme
 ```
 
-Install some documentation
+## Install some documentation
 
 ```bash
 sudo pacman -S --needed man-db man-pages texinfo tldr
 ```
 
-Install file dialog (gvfs) and file explorer (thunar)
+## Install some more useful stuff and enable some services
 
 ```bash
-sudo pacman -S --needed gvfs gvfs-afc gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman tumbler
-```
+sudo pacman -S --needed acpi acpid baobab bash-completion discord firewalld firefox fish flatpak fzf gnome-disk-utility gnome-font-viewer gnome-keyring gnome-logs htop hwinfo inxi lxappearance nano-syntax-highlighting neovim polkit reflector rsync rtkit scrot sysstat tlp vlc wget xdg-user-dirs xdg-user-dirs-gtk
 
-Install some more useful stuff and enable some services
+yay -S visual-studio-code-bin octopi spotify
 
-```bash
-pacman -S --needed acpi acpid baobab bash-completion blueman bluez bluez-utils dconf-editor firewalld fish flatpak fzf gnome-disk-utility gnome-font-viewer gnome-keyring gnome-logs gtk-engine-murrine htop hwinfo inxi lxappearance nano-syntax-highlighting neovim reflector rsync rtkit scrot sysstat tlp wget xdg-user-dirs xdg-user-dirs-gtk
-
-yay -S visual-studio-code-bin octopi awesome-git
-
-flatpak install org.mozilla.firefox com.discordapp.Discord com.spotify.Client org.videolan.VLC com.github.tchx84.Flatseal com.usebottles.bottles org.qbittorrent.qBittorrent org.openrgb.OpenGRB
+flatpak install com.github.tchx84.Flatseal com.usebottles.bottles
 
 sudo systemctl enable acipd.service
 sudo systemctl enable bluetooth.service
@@ -358,29 +527,14 @@ sudo systemctl enable tlp
 sudo systemctl enable reflector.service
 ```
 
-If we want to mount some windows disks on startup
+## Clone dotfiles
 
 ```bash
-# Find the UUID of the partitions you need to mount
-sudo blkid | grep ' UUID='
+git clone --bare https://github.com/derryleng/dotfiles.git /home/derry/.dotfiles
 
-# Make some mount directories
-sudo mkdir -p /mnt/windows/c
-sudo mkdir -p /mnt/windows/d
-sudo mkdir -p /mnt/windows/e
+# Set dotfiles alias if not done already
+# alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
 
-# Edit fstab
-sudo /etc/fstab
-# Add new lines e.g.
-#
-# UUID=OUR_C_DRIVE_UUID /mnt/windows/c ntfs-3g defaults,nls=utf8,umask=000,dmask=027,fmask=137,uid=1000,gid=1000,windows_names 0 0
-#
-# and etc for the other drives.
+dotfiles config --local status.showUntrackedFiles no
+dotfiles checkout
 ```
-
-## Resources
-
-Config templates used:
-
-- AwesomeWM: https://github.com/suconakh/awesome-awesome-rc
-- Rofi: https://github.com/adi1090x/rofi
