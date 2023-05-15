@@ -155,7 +155,7 @@ function _M.create_wibox(s)
    if s.geometry.width > s.geometry.height then
       return awful.wibar{
          screen = s,
-         position = 'bottom',
+         position = 'top',
          opacity = 0.9,
          -- height = 42,
          widget = {
@@ -165,7 +165,7 @@ function _M.create_wibox(s)
                layout = wibox.layout.fixed.horizontal,
                -- menu.launcher,
                s.taglist,
-               _M.sep,
+               --_M.sep,
                s.promptbox,
             },
             -- middle widgets
@@ -174,12 +174,11 @@ function _M.create_wibox(s)
             {
                layout = wibox.layout.fixed.horizontal,
                wibox.widget.systray(),
+               --_M.keyboardlayout,
                _M.spotify,
-               _M.sep,
-               _M.volume_small,
-               _M.sep,
-               _M.keyboardlayout,
-               _M.sep,
+               --_M.sep,
+               --_M.volume_small,
+               --_M.sep,
                _M.textclock,
                s.layoutbox,
             }
@@ -189,9 +188,9 @@ function _M.create_wibox(s)
    else
       return awful.wibar{
          screen = s,
-         position = 'bottom',
+         position = 'top',
          opacity = 0.9,
-         height = 28,
+         -- height = 28,
          widget = {
             layout = wibox.layout.align.horizontal,
             -- left widgets

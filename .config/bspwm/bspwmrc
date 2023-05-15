@@ -1,7 +1,8 @@
 #! /bin/sh
 
 xsetroot -cursor_name left_ptr &
-setxkbmap gb &
+# setxkbmap gb &
+ibus-daemon
 [ $(ps -aux | grep 'picom$' | wc -l) -eq 0 ] && picom &
 [ $(ps -aux | grep 'volumeicon$' | wc -l) -ge 1 ] && killall volumeicon
 volumeicon &
