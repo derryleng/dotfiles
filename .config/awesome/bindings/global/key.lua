@@ -94,6 +94,13 @@ awful.keyboard.append_global_keybindings{
    },
    awful.key{
       modifiers   = {mod.super},
+      key         = 'b',
+      description = 'open web browser',
+      group       = 'launch',
+      on_press    = function() awful.spawn(vars.browser) end,
+   },
+   awful.key{
+      modifiers   = {mod.super},
       key         = 'e',
       description = 'open file explorer',
       group       = 'launch',

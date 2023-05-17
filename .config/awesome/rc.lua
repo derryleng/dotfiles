@@ -19,6 +19,7 @@ vars = {
     terminal = 'alacritty',
     editor   = 'nvim',
     shell    = '/bin/bash',
+    browser  = 'firefox',
     explorer = 'thunar',
 }
 
@@ -76,6 +77,6 @@ run_once({
     "picom",
     "volumeicon",
     "nm-applet",
-    "ibus-daemon",
+    "ibus-daemon -rxR",
     --"openrgb -d 0 -m direct -c 000000 -b 0",
 })

@@ -1,13 +1,14 @@
 #! /bin/sh
 
 xsetroot -cursor_name left_ptr &
-# setxkbmap gb &
-ibus-daemon
+xrandr --output HDMI-0 --scale 1.5x1.5
+setxkbmap gb &
 [ $(ps -aux | grep 'picom$' | wc -l) -eq 0 ] && picom &
 [ $(ps -aux | grep 'volumeicon$' | wc -l) -ge 1 ] && killall volumeicon
 volumeicon &
 nm-applet &
 $HOME/.config/polybar/launch.sh &
+ibus-daemon -rxR
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 
@@ -19,7 +20,6 @@ if test "$(bspc query -M | wc -l)" -eq 2; then
 fi
 
 bspc config window_gap                  1
-bspc config border_radius               1
 bspc config border_width                1
 bspc config top_padding                 0
 bspc config right_padding               0
@@ -38,7 +38,7 @@ bspc config pointer_action3             resize_corner
 bspc config pointer_follows_focus       false
 bspc config pointer_follows_monitor     false
 
-bspc config click_to_focus              false #button1
+bspc config click_to_focus              button1
 bspc config swallow_first_click         false
 bspc config focus_follows_pointer       true
 

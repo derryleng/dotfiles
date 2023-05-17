@@ -20,14 +20,17 @@
     - [Exit chroot and reboot](#exit-chroot-and-reboot)
     - [Connect to internet on new system](#connect-to-internet-on-new-system)
   - [AUR helper (yay)](#aur-helper-yay)
-  - [Display manager (ly)](#display-manager-ly)
+  - [Display manager](#display-manager)
+    - [ly](#ly)
+    - [sddm](#sddm)
   - [Sound (pipewire)](#sound-pipewire)
+  - [Graphics drivers (nvidia)](#graphics-drivers-nvidia)
   - [DE/WM](#dewm)
     - [awesome](#awesome)
     - [bspwm](#bspwm)
+    - [GNOME](#gnome)
   - [Fonts](#fonts)
   - [Filesystem tools](#filesystem-tools)
-  - [Nvidia graphics drivers](#nvidia-graphics-drivers)
   - [Cursors, icons and themes](#cursors-icons-and-themes)
   - [Documentation](#documentation)
   - [More useful stuff and enable some services](#more-useful-stuff-and-enable-some-services)
@@ -60,6 +63,10 @@ Config templates used:
 
 - AwesomeWM: https://github.com/suconakh/awesome-awesome-rc
 - Rofi: https://github.com/adi1090x/rofi
+
+Themes used:
+
+- SDDM theme: https://github.com/GistOfSpirit/TerminalStyleLogin
 
 # Install Instructions
 
@@ -322,7 +329,9 @@ yay -Y --devel --save
 
 See more details here: https://github.com/Jguer/yay
 
-## Display manager (ly)
+## Display manager
+
+### ly
 
 ```bash
 yay -S ly
@@ -330,6 +339,30 @@ sudo systemctl enable ly.service
 ```
 
 See more details here: https://github.com/fairyglade/ly
+
+### sddm
+
+```bash
+yay -S sddm qt5-quickcontrols2
+sudo systemctl enable sddm.service
+```
+
+Apply a nice theme
+
+```bash
+git clone https://github.com/GistOfSpirit/TerminalStyleLogin
+# then follow instructions to build
+
+# Make some edits:
+# Set fontSize=18 in theme.conf
+# Add visible: false inside Login {id: loginForm}
+
+# Copy contents of build folder to /usr/share/sddm/themes/TerminalStyleLogin
+
+# Create the file /etc/sddm.conf and add the following contents:
+# [Theme]
+# Current=TerminalStyleLogin
+```
 
 ## Sound (pipewire)
 
@@ -349,6 +382,12 @@ See more details here: https://github.com/fairyglade/ly
 ```bash
 yay -S alsa-firmware alsa-plugins alsa-utils gst-plugin-firmware pavucontrol \
 pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
+```
+
+## Graphics drivers (nvidia)
+
+```bash
+yay -S --needed nvidia nvidia-utils nvidia-settings
 ```
 
 ## DE/WM
@@ -460,6 +499,8 @@ thunar thunar-archive-plugin thunar-media-tags-plugin thunar-volman tumbler \
 alacritty
 ```
 
+### GNOME
+
 | Package                                   | Description                                           |
 | ----------------------------------------- | ----------------------------------------------------- |
 | xorg-server                               | Display server for X11                                |
@@ -521,16 +562,11 @@ noto-fonts-emoji
 yay -S --needed e2fsprogs btrfs-progs exfat-utils ntfs-3g smartmontools
 ```
 
-## Nvidia graphics drivers
+## Themes
 
 ```bash
-yay -S --needed nvidia nvidia-utils nvidia-settings
-```
-
-## Cursors, icons and themes
-
-```bash
-yay -S bibata-cursor-theme-bin qogir-gtk-theme arc-gtk-theme-git papirus-icon-theme
+yay -S bibata-cursor-theme-bin arc-gtk-theme-git papirus-icon-theme-git \
+qt5ct lxappearance
 ```
 
 ## Documentation
@@ -543,13 +579,10 @@ yay -S --needed man-db man-pages texinfo tldr
 
 ```bash
 yay -S --needed acpi acpid baobab bash-completion discord firewalld \
-firefox fish flatpak fzf gnome-disk-utility gnome-font-viewer       \
-gnome-keyring gnome-logs htop hwinfo inxi lxappearance              \
-nano-syntax-highlighting neovim polkit reflector rsync rtkit scrot  \
-sysstat tlp vlc wget xdg-user-dirs xdg-user-dirs-gtk                \
-visual-studio-code-bin octopi spotify
-
-flatpak install flathub com.github.tchx84.Flatseal com.usebottles.bottles
+firefox fish fzf gnome-disk-utility gnome-font-viewer gnome-keyring \
+gnome-logs htop hwinfo inxi nano-syntax-highlighting neovim polkit  \
+reflector rsync rtkit scrot sysstat tlp vlc wget xdg-user-dirs      \
+xdg-user-dirs-gtk visual-studio-code-bin octopi spotify
 
 sudo systemctl enable acipd.service
 sudo systemctl enable bluetooth.service
