@@ -3,7 +3,7 @@ if status is-interactive
 end
 
 # Empty git repo for tracking dotfiles
-alias dotfiles='/usr/bin/git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
+alias dotfiles='git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
 
 set -U fish_greeting ""
 
