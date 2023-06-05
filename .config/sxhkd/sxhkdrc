@@ -43,8 +43,12 @@ super + shift + e
 # --------------------------------------------------
 
 # quit/restart bspwm
-super + ctrl + shift + {q,r}
-	bspc {quit,wm -r}
+super + shift + q
+	bspc quit
+
+# restart bspwm
+super + ctrl + r
+	bspc wm -r
 
 # close/kill node
 super + {_,shift + } q

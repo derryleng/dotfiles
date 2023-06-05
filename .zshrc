@@ -2,7 +2,7 @@
 [[ $- != *i* ]] && return
 
 # Empty git repo for tracking dotfiles
-alias dotfiles='git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 alias ls='ls --color=auto'
 alias ll='ls -lav --ignore=..'   # show long listing of all except ".."
@@ -17,7 +17,7 @@ if [[ ! -f ~/.oh-my-zsh ]]; then
     # Initialization code that may require console input (password prompts, [y/n]
     # confirmations, etc.) must go above this block; everything else may go below.
     if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+        source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
     fi
 
     # If you come from bash you might have to change your $PATH.
@@ -125,18 +125,3 @@ if [[ ! -f ~/.oh-my-zsh ]]; then
     # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
     [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 fi
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/derry/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/derry/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/derry/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/derry/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<

@@ -12,7 +12,7 @@ alias grep='grep --colour=auto'
 PS1='[\u@\h \W]\$ '
 
 # Empty git repo for tracking dotfiles
-alias dotfiles='git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 ## Use the up and down arrow keys for finding a command in history
 ## (you can write some initial letters of the command first).

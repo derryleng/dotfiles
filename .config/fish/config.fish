@@ -1,17 +1,16 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
+    neofetch
 end
 
 # Empty git repo for tracking dotfiles
-alias dotfiles='git --git-dir=/home/derry/.dotfiles/ --work-tree=/home/derry'
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotdiff='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff'
+alias dotdiffnames='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff --name-only'
+alias dotdiffc='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff --cached'
+alias dotdiffcnames='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff --cached --name-only'
+alias dotadd='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add -u'
+alias dotcommit='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m'
+alias dotpush='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME push origin main'
 
 set -U fish_greeting ""
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-if test -f /home/derry/anaconda3/bin/conda
-    eval /home/derry/anaconda3/bin/conda "shell.fish" "hook" $argv | source
-end
-# <<< conda initialize <<<
-
-neofetch
