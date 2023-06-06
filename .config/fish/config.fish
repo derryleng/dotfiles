@@ -1,6 +1,7 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    neofetch
+    neofetch | lolcat -p 10 -F 0.3 && fortune
+    # neofetch --ascii "$(fortune | cowsay -f tux -W 50)"
 end
 
 # Empty git repo for tracking dotfiles

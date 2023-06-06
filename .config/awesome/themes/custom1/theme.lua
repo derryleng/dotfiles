@@ -10,24 +10,24 @@ local theme = {}
 
 theme.font                 = "Terminus 9"
 
-theme.bg_normal            = "#000000"
-theme.bg_focus             = "#00388B"
-theme.bg_urgent            = "#91231c"
-theme.bg_minimize          = "#000000"
+theme.bg_normal            = "#404552"
+theme.bg_focus             = "#5294e2"
+theme.bg_urgent            = "#a70b06"
+theme.bg_minimize          = "#404552"
 theme.bg_systray           = theme.bg_normal
 
-theme.fg_normal            = "#DDDDFF"
+theme.fg_normal            = "#FFFFFF"
 theme.fg_focus             = "#FFFFFF"
-theme.fg_urgent            = "#CC9393"
-theme.fg_minimize          = "#888888"
+theme.fg_urgent            = "#FFFFFF"
+theme.fg_minimize          = "#808080"
 
-theme.useless_gap          = dpi(0)
+theme.useless_gap          = dpi(2)
 theme.border_width         = dpi(1)
 theme.border_color_normal  = theme.bg_normal
 theme.border_color_active  = theme.bg_focus
 theme.border_color_marked  = theme.bg_urgent
  
-theme.hotkeys_modifiers_fg = "#0066FF"
+theme.hotkeys_modifiers_fg = "#5294e2"
 theme.hotkeys_opacity      = 0.8
 theme.hotkeys_group_margin = dpi(25)
 
