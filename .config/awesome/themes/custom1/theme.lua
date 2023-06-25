@@ -21,12 +21,12 @@ theme.fg_focus             = "#FFFFFF"
 theme.fg_urgent            = "#FFFFFF"
 theme.fg_minimize          = "#808080"
 
-theme.useless_gap          = dpi(2)
+theme.useless_gap          = dpi(0)
 theme.border_width         = dpi(1)
-theme.border_color_normal  = theme.bg_normal
+theme.border_color_normal  = "#000000" -- theme.bg_normal
 theme.border_color_active  = theme.bg_focus
 theme.border_color_marked  = theme.bg_urgent
- 
+
 theme.hotkeys_modifiers_fg = "#5294e2"
 theme.hotkeys_opacity      = 0.8
 theme.hotkeys_group_margin = dpi(25)

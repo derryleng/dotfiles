@@ -31,11 +31,11 @@ super + Return
 	alacritty
 
 # browser
-super + shift + f
-	flatpak run org.mozilla.firefox
+super + b
+	firefox
 
 # file explorer
-super + shift + e
+super + e
 	thunar
 
 # --------------------------------------------------

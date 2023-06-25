@@ -21,7 +21,7 @@ Themes:
 - Icons: Papirus-Dark
 - GTK: Arc-Dark
 - Qt: Custom Arc-Dark clone
-- VSCode: SolarLiner.linux-themes
+- VSCode: ph-hawkins.arc-plus
 
 Config templates used:
 

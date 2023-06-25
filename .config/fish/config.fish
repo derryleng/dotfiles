@@ -15,3 +15,11 @@ alias dotcommit='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m'
 alias dotpush='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME push origin main'
 
 set -U fish_greeting ""
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+if test -f /home/derry/miniconda3/bin/conda
+    eval /home/derry/miniconda3/bin/conda "shell.fish" "hook" $argv | source
+end
+# <<< conda initialize <<<
+

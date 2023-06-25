@@ -75,8 +75,8 @@ run_once({
     "setxkbmap gb",
     "xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applications.menu > ~/.config/awesome/archmenu.lua && sed -i 's/xterm/alacritty/g' ~/.config/awesome/archmenu.lua",
     "picom",
-    "volumeicon",
-    "nm-applet",
     "ibus-daemon -rxR",
+    "nm-applet &",
+    "volumeicon &",
     --"openrgb -d 0 -m direct -c 000000 -b 0",
 })
